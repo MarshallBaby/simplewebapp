@@ -8,6 +8,8 @@ public class Employee {
     private String firstName;
     private Gender gender;
 
+    public Employee(){};
+
     public Employee(Long employeeId, String firstName, Gender gender){
         this.employeeId = employeeId;
         this.firstName = firstName;
