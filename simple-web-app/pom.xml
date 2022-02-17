@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>by.marshallbaby</groupId>
-    <artifactId>spring-web-app</artifactId>
+    <artifactId>simple-web-app</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spring-web-app</name>
-    <description>spring-web-app</description>
+    <name>simple-web-app</name>
+    <description>simple-web-app</description>
     <properties>
         <java.version>1.8</java.version>
     </properties>

@@ -1,13 +1,13 @@
-package by.marshallbaby.springwebapp;
+package by.marshallbaby.simplewebapp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringWebAppApplication {
+public class SimpleWebAppApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringWebAppApplication.class, args);
+        SpringApplication.run(SimpleWebAppApplication.class, args);
     }
 
 }
