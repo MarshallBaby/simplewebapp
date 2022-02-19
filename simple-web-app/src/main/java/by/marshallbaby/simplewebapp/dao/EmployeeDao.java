@@ -19,8 +19,15 @@ public class EmployeeDao implements EmployeeDaoInterface{
     @Override
     public int save(Employee employee){
         return jdbcTemplate.update(
-                "INSERT INTO eployees (first_name, gender) VALUES(?,?)",
-                new Object[] { employee.getFirstName(), employee.getGender()}
+                "INSERT INTO employees (first_name, last_name, department_id, job_title, gender) " +
+                        "VALUES (?,?,?,?,?)",
+                new Object[] {
+                        employee.getFirstName(),
+                        employee.getLastName(),
+                        employee.getDepartmentId(),
+                        employee.getJobTitle(),
+                        employee.getGender().name()
+                }
         );
     }
 
