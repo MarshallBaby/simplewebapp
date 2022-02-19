@@ -18,4 +18,17 @@ public class EmployeeService{
         public int save(Employee employee){
                 return employeeDao.save(employee);
         }
+
+        public int update(Employee employee) {
+                return employeeDao.update(employee);
+        }
+
+        public Employee findById(Long employeeId){
+                return employeeDao.findById(employeeId);
+        }
+
+        public int deteleById(Long employeeId){
+                return employeeDao.deleteById(employeeId);
+        }
+
 }

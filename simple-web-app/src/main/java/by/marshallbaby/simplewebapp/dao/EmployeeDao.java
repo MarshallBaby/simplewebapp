@@ -16,6 +16,7 @@ public class EmployeeDao implements EmployeeDaoInterface{
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    // DONE
     @Override
     public int save(Employee employee){
         return jdbcTemplate.update(
@@ -31,14 +32,24 @@ public class EmployeeDao implements EmployeeDaoInterface{
         );
     }
 
+    // DONE
     @Override
     public int update(Employee employee) {
         return jdbcTemplate.update(
-                "UPDATE employees SET first_name=?, gender=? WHERE employee_id=?",
-                new Object[] {employee.getFirstName(), employee.getGender(), employee.getEmployeeId()}
+                "UPDATE employees SET first_name=?, last_name=?, department_id=?, job_title=?, gender=? " +
+                        " WHERE employee_id=?",
+                new Object[] {
+                        employee.getFirstName(),
+                        employee.getLastName(),
+                        employee.getDepartmentId(),
+                        employee.getJobTitle(),
+                        employee.getGender().name(),
+                        employee.getEmployeeId()
+                }
         );
     }
 
+    // DONE
     @Override
     public Employee findById(Long employeeId){
         try{

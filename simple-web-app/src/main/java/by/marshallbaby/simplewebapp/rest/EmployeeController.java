@@ -22,18 +22,64 @@ public class EmployeeController {
     @PostMapping("/employee")
     public ResponseEntity<String> saveEmployee(@RequestBody Employee employee){
         try{
-            employeeService.save(new Employee(
-                    employee.getFirstName(),
-                    employee.getLastName(),
-                    employee.getDepartmentId(),
-                    employee.getJobTitle(),
-                    employee.getGender()
-            ));
+            employeeService.save(employee);
             return new ResponseEntity<>("OK", HttpStatus.CREATED);
         } catch (Exception e){
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/employee/{id}")
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") Long employeeId){
+        Employee employee = employeeService.findById(employeeId);
+        try{
+            if(employee != null){
+                return new ResponseEntity<>(employee, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PutMapping("/employee/{id}")
+    public ResponseEntity<String> updateEmployee(
+            @PathVariable("id") Long employeeId,
+            @RequestBody Employee employee){
+
+        Employee _employee = employeeService.findById(employeeId);
+        if(_employee != null){
+            _employee.setEmployeeId(employeeId);
+            _employee.setFirstName(employee.getFirstName());
+            _employee.setLastName(employee.getLastName());
+            _employee.setDepartmentId(employee.getDepartmentId());
+            _employee.setJobTitle(employee.getJobTitle());
+            _employee.setGender(employee.getGender());
+            employeeService.update(_employee);
+            return new ResponseEntity<>("OK", HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+    @DeleteMapping("/employee/{id}")
+    public ResponseEntity<String> deteleEmployee(@PathVariable("id") Long employeeId){
+        try{
+            Employee employee = employeeService.findById(employeeId);
+            if(employee != null){
+                employeeService.deteleById(employeeId);
+                return new ResponseEntity<>("OK", HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 //    @GetMapping("/employee")
 //    public ResponseEntity<List<Employee>> getAllEmployees(){
 //        try{
