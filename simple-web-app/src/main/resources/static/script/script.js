@@ -13,6 +13,8 @@ let removeBtn = document.getElementById('removeBtn');
 let searchBtn = document.getElementById('searchBtn');
 
 let confimBtn = document.getElementById('confirm-button');
+let confirmIcon = document.getElementById('confirm-icon');
+let confirmMsg = document.getElementById('confirm-message');
 
 let pages = [
     document.getElementsByClassName('add-form')[0],
@@ -72,7 +74,7 @@ function switchHandler(statement){
           break;
           case switchEnum.SEARCH:
               {
-                switchState = switchEnum.REMOVE;
+                switchState = switchEnum.SEARCH;
                 searchBtn.classList.add('switch-search-active');
 
                 editBtn.classList.remove('switch-edit-active');
@@ -90,6 +92,47 @@ function switchHandler(statement){
 
 
 switchHandler(switchEnum.ADD);
+
+
+function sendRequest(){
+    confirmIcon.style.display = "flex";
+    switch (switchState) {
+      case switchEnum.ADD:
+            processSaveRequest();
+        break;
+      default:
+
+    }
+
+
+    confirmIcon.style.display = "none";
+}
+
+function processSaveRequest(){
+    let formData = {
+        "firstName" : document.getElementById('add-first-name').value,
+        "lastName" : document.getElementById('add-last-name').value,
+        "departmentId" : document.getElementById('add-dep-id').value,
+        "jobTitle" : document.getElementById('add-job-tag').value,
+        "gender" : "MALE"
+    }
+
+    let settings = {
+        "url": "http://192.168.1.120:8080/api/employee",
+        "method": "POST",
+        "data": JSON.stringify(formData),
+        "headers": {
+            "Content-Type": "application/json"
+        }
+    }
+
+    $.ajax(settings).done(function (response) {
+        confirmMsg.textContent = response;
+        switchPages(switchState);
+    });
+
+
+}
 
 
 formData = {

@@ -28,19 +28,19 @@
       <section class="add-form">
           <div>
             <p>First name</p>
-            <input type="text" name="add-first-name" value="">
+            <input type="text" id="add-first-name" value="">
           </div>
           <div>
             <p>Last name</p>
-            <input type="text" name="add-last-name" value="">
+            <input type="text" id="add-last-name" value="">
           </div>
           <div>
             <p>Dep ID</p>
-            <input type="number" name="add-dep-id" value="">
+            <input type="number" id="add-dep-id" value="">
           </div>
           <div>
             <p>Job Tag</p>
-            <input type="text" name="add-job-tag" value="">
+            <input type="text" id="add-job-tag" value="">
           </div>
 
           <div>
@@ -65,7 +65,7 @@
           </section>
 
           <div class="confirm-area">
-            <div id="confirm-button">
+            <div onclick="sendRequest()" id="confirm-button">
               Save
             </div>
             <img id="confirm-icon" src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/35771931234507.564a1d2403b3a.gif" alt="">
