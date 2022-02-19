@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("/api")
 @Controller
 public class EmployeeController {
@@ -25,6 +26,7 @@ public class EmployeeController {
             employeeService.save(employee);
             return new ResponseEntity<>("OK", HttpStatus.CREATED);
         } catch (Exception e){
+            e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
