@@ -12,6 +12,30 @@ let editBtn = document.getElementById('editBtn');
 let removeBtn = document.getElementById('removeBtn');
 let searchBtn = document.getElementById('searchBtn');
 
+let confimBtn = document.getElementById('confirm-button');
+
+let pages = [
+    document.getElementsByClassName('add-form')[0],
+    document.getElementsByClassName('edit-form')[0],
+    document.getElementsByClassName('remove-form')[0],
+    document.getElementsByClassName('search-form')[0],
+]
+
+function switchPages(value){
+    for(let i = 0; i < pages.length; i++){
+      if(i == value){
+        pages[i].style.display = "flex";
+      }else{
+        pages[i].style.display = "none";
+      }
+    }
+
+    document.querySelectorAll("input").forEach((item, i) => {
+      item.value = "";
+    });
+
+}
+
 function switchHandler(statement){
   switch (statement) {
     case switchEnum.ADD:
@@ -22,6 +46,8 @@ function switchHandler(statement){
           editBtn.classList.remove('switch-edit-active');
           removeBtn.classList.remove('switch-remove-active');
           searchBtn.classList.remove('switch-search-active');
+
+          confimBtn.style.backgroundColor = "#A981FF";
         }
       break;
       case switchEnum.EDIT:
@@ -52,11 +78,14 @@ function switchHandler(statement){
                 editBtn.classList.remove('switch-edit-active');
                 removeBtn.classList.remove('switch-remove-active');
                 addBtn.classList.remove('switch-add-active');
+
               }
             break;
     default:
 
   }
+
+  switchPages(statement);
 }
 
 
