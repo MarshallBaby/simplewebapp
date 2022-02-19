@@ -1,23 +1,49 @@
 package by.marshallbaby.simplewebapp.dto;
 
-import org.springframework.data.annotation.Id;
+import javax.persistence.*;
 
+
+@Entity
+@Table(name = "employees")
 public class Employee {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long employeeId;
     private String firstName;
+    private String lastName;
+    private Integer departmentId;
+    private String jobTitle;
     private Gender gender;
 
-    public Employee(){};
+    public Employee(){
 
-    public Employee(Long employeeId, String firstName, Gender gender){
+    };
+
+    public Employee(Long employeeId,
+                    String firstName,
+                    String lastName,
+                    Integer departmentId,
+                    String jobTitle,
+                    Gender gender){
         this.employeeId = employeeId;
         this.firstName = firstName;
+        this.lastName = lastName;
+        this.departmentId = departmentId;
+        this.jobTitle = jobTitle;
         this.gender = gender;
     }
 
-    public Employee(String firstName, Gender gender){
+    public Employee(
+                    String firstName,
+                    String lastName,
+                    Integer departmentId,
+                    String jobTitle,
+                    Gender gender){
         this.firstName = firstName;
+        this.lastName = lastName;
+        this.departmentId = departmentId;
+        this.jobTitle = jobTitle;
         this.gender = gender;
     }
 
@@ -37,17 +63,35 @@ public class Employee {
         return firstName;
     }
 
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setDepartmentId(Integer departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    public Integer getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
+    }
+
+    public String getJobTitle() {
+        return jobTitle;
+    }
+
     public void setGender(Gender gender) {
         this.gender = gender;
     }
 
     public Gender getGender() {
         return gender;
-    }
-
-    @Override
-    public String toString() {
-        return "Employee [employeeId=" + employeeId + " firstName=" + firstName +
-                " gender=" + gender;
     }
 }

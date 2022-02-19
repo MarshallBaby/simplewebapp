@@ -1,11 +1,10 @@
-package by.marshallbaby.simplewebapp.service;
+package by.marshallbaby.simplewebapp.dao;
 
 import by.marshallbaby.simplewebapp.dto.Employee;
-import by.marshallbaby.simplewebapp.dto.Gender;
 
 import java.util.List;
 
-public interface EmployeeServiceInterface {
+public interface EmployeeDaoInterface {
     int save(Employee employee);
     int update(Employee employee);
     Employee findById(Long employeeId);
