@@ -2,13 +2,58 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link href="style/style.css">
+    <title>Godel Employee RESTFul App</title>
+    <link rel="stylesheet" href="./style/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Ubuntu:wght@300;400;500&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-    Hello, baby!
+    <div class="wrapper">
+      <h1 class="title">Godel Employee RESTFul App</h1>
+      <div class="switch-container">
+         <div onclick="switchHandler(0)" id="addBtn" class="switch">
+            <p>Add</p>
+         </div>
+         <div onclick="switchHandler(1)" id="editBtn" class="switch">
+            <p>Edit</p>
+         </div>
+         <div id="removeBtn" class="switch">
+            <p>Remove</p>
+         </div>
+         <div id="searchBtn" class="switch">
+            <p>Search</p>
+         </div>
+      </div>
 
+      <section class="add-form">
+          <div>
+            <p>First name</p>
+            <input type="text" name="add-first-name" value="">
+          </div>
+          <div>
+            <p>Last name</p>
+            <input type="text" name="add-last-name" value="">
+          </div>
+          <div>
+            <p>Dep ID</p>
+            <input type="number" name="add-dep-id" value="">
+          </div>
+          <div>
+            <p>Job Tag</p>
+            <input type="text" name="add-job-tag" value="">
+          </div>
+
+          <div>
+            <p>Gender</p>
+            <select name="select"> <!--Supplement an id here instead of using 'name'-->
+              <option value="MALE"> Male </option>
+              <option value="FEMALE" selected> Female </option>
+            </select>
+          </div>
+          </section>
+      </div>
+
+    </div>
     <script type="text/javascript" src="script/script.js"></script>
 </body>
 </html>
