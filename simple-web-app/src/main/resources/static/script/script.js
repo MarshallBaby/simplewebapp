@@ -34,6 +34,26 @@ function switchHandler(statement){
             searchBtn.classList.remove('switch-search-active');
           }
         break;
+        case switchEnum.REMOVE:
+            {
+              switchState = switchEnum.REMOVE;
+              removeBtn.classList.add('switch-remove-active');
+
+              editBtn.classList.remove('switch-edit-active');
+              addBtn.classList.remove('switch-add-active');
+              searchBtn.classList.remove('switch-search-active');
+            }
+          break;
+          case switchEnum.SEARCH:
+              {
+                switchState = switchEnum.REMOVE;
+                searchBtn.classList.add('switch-search-active');
+
+                editBtn.classList.remove('switch-edit-active');
+                removeBtn.classList.remove('switch-remove-active');
+                addBtn.classList.remove('switch-add-active');
+              }
+            break;
     default:
 
   }
