@@ -44,6 +44,23 @@ public class EmployeeController {
         }
     }
 
+    @GetMapping("/employee")
+    public ResponseEntity<List<Employee>> getAll() {
+        try{
+            List<Employee> employees = employeeService.findAll();
+
+            if (employees.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }else{
+                return new ResponseEntity<>(employees, HttpStatus.OK);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
     @PutMapping("/employee/{id}")
     public ResponseEntity<String> updateEmployee(
             @PathVariable("id") Long employeeId,
@@ -66,7 +83,7 @@ public class EmployeeController {
 
 
     @DeleteMapping("/employee/{id}")
-    public ResponseEntity<String> deteleEmployee(@PathVariable("id") Long employeeId){
+    public ResponseEntity<String> deleteEmployee(@PathVariable("id") Long employeeId){
         try{
             Employee employee = employeeService.findById(employeeId);
             if(employee != null){
@@ -79,20 +96,5 @@ public class EmployeeController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-//    @GetMapping("/employee")
-//    public ResponseEntity<List<Employee>> getAllEmployees(){
-//        try{
-//            List<Employee> employees = new ArrayList<Employee>();
-//            employeeService.findAll().forEach(employees::add);
-//            if (employees.isEmpty()){
-//                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//            }
-//            return new ResponseEntity<>(employees, HttpStatus.OK);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
 
 }

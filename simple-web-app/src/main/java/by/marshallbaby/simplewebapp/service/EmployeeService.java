@@ -31,4 +31,7 @@ public class EmployeeService{
                 return employeeDao.deleteById(employeeId);
         }
 
+        public List<Employee> findAll(){
+                return employeeDao.findAll();
+        }
 }

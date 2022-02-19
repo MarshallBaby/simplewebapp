@@ -10,5 +10,4 @@ public interface EmployeeDaoInterface {
     Employee findById(Long employeeId);
     int deleteById(Long employeeId);
     List<Employee> findAll();
-    List<Employee> findByFirstName(String firstName);
 }

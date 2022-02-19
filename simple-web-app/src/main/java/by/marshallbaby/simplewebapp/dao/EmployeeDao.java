@@ -62,26 +62,19 @@ public class EmployeeDao implements EmployeeDaoInterface{
         }
     }
 
+    // DONE
     @Override
     public int deleteById(Long employeeId){
         return jdbcTemplate.update("DELETE FROM employees WHERE employee_id = ?",
                 employeeId);
     }
 
+    // DONE
     @Override
     public List<Employee> findAll(){
         return jdbcTemplate.query(
-                "SELECT * FROM employees",
+                "SELECT * FROM employees ORDER BY employee_id",
                 BeanPropertyRowMapper.newInstance(Employee.class)
-        );
-    }
-
-    @Override
-    public List<Employee> findByFirstName(String firstName){
-        return jdbcTemplate.query(
-                "SELECT * FROM employees WHERE first_name = ?",
-                BeanPropertyRowMapper.newInstance(Employee.class),
-                firstName
         );
     }
 
