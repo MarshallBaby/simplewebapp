@@ -25,7 +25,7 @@ let pages = [
 
 function switchPages(value){
     for(let i = 0; i < pages.length; i++){
-      if(i == value){
+      if(i === value){
         pages[i].style.display = "flex";
       }else{
         pages[i].style.display = "none";
