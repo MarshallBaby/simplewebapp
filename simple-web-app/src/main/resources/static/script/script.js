@@ -239,6 +239,12 @@ function processEditSearchRequest(){
         complete: function(data) {
             if(data.status != 200){
               clearInputs();
+              idField.classList.add('border-yellow');
+
+              setTimeout(function() {
+                idField.classList.remove('border-yellow');
+              }, 1000)
+
               return;
             }
 

@@ -17,6 +17,10 @@ input[type=number]::-webkit-outer-spin-button {
   border: 1px solid #DB2C2C !important;
 }
 
+.border-yellow{
+  border: 1px solid #DBD14A !important;
+}
+
 .wrapper{
   width: calc(100% - 120px);
   min-height: 100vh;
