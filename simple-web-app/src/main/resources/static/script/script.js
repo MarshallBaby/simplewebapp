@@ -16,21 +16,7 @@ let confimBtn = document.getElementById('confirm-button');
 let confirmIcon = document.getElementById('confirm-icon');
 let confirmMsg = document.getElementById('confirm-message');
 
-let pages = [
-    document.getElementsByClassName('add-form')[0],
-    document.getElementsByClassName('edit-form')[0],
-    document.getElementsByClassName('remove-form')[0],
-    document.getElementsByClassName('search-form')[0],
-]
-
-function switchPages(value){
-    for(let i = 0; i < pages.length; i++){
-      if(i === value){
-        pages[i].style.display = "flex";
-      }else{
-        pages[i].style.display = "none";
-      }
-    }
+function clearInputs(value){
 
     document.querySelectorAll("input").forEach((item, i) => {
       item.value = "";
@@ -38,56 +24,65 @@ function switchPages(value){
 
 }
 
+
+function processAjaxReply(currentCode, expectedCode, xhr){
+  clearInputs();
+
+  confirmMsg.classList.remove("display-none")
+
+  if(currentCode === expectedCode){
+    confirmMsg.textContent = "OK";
+    confirmMsg.style.color = "#128300";
+  }else if(currentCode === 0){
+    confirmMsg.textContent = "Connection error";
+    confirmMsg.style.color = "#F11D00";
+  }else{
+    confirmMsg.textContent = xhr.statusText;
+    confirmMsg.style.color = "#F1CB00";
+  }
+}
+
 function switchHandler(statement){
+  switchState = statement;
+  clearInputs();
+  document.querySelectorAll(".field").forEach((item, i) => {
+    item.classList.add("display-none");
+  });
+
   switch (statement) {
     case switchEnum.ADD:
         {
-          switchState = switchEnum.ADD;
-          addBtn.classList.add('switch-add-active');
+            confimBtn.style.backgroundColor = "#A981FF";
 
-          editBtn.classList.remove('switch-edit-active');
-          removeBtn.classList.remove('switch-remove-active');
-          searchBtn.classList.remove('switch-search-active');
 
-          confimBtn.style.backgroundColor = "#A981FF";
+            document.querySelectorAll(".add-field").forEach((item, i) => {
+              item.classList.remove("display-none");
+            });
         }
       break;
       case switchEnum.EDIT:
           {
-            switchState = switchEnum.EDIT;
-            editBtn.classList.add('switch-edit-active');
+            confimBtn.style.backgroundColor = "#F1CB00";
 
-            addBtn.classList.remove('switch-add-active');
-            removeBtn.classList.remove('switch-remove-active');
-            searchBtn.classList.remove('switch-search-active');
+
+            document.querySelectorAll(".edit-field").forEach((item, i) => {
+              item.classList.remove("display-none");
+            });
           }
         break;
         case switchEnum.REMOVE:
             {
-              switchState = switchEnum.REMOVE;
-              removeBtn.classList.add('switch-remove-active');
 
-              editBtn.classList.remove('switch-edit-active');
-              addBtn.classList.remove('switch-add-active');
-              searchBtn.classList.remove('switch-search-active');
             }
           break;
           case switchEnum.SEARCH:
               {
-                switchState = switchEnum.SEARCH;
-                searchBtn.classList.add('switch-search-active');
-
-                editBtn.classList.remove('switch-edit-active');
-                removeBtn.classList.remove('switch-remove-active');
-                addBtn.classList.remove('switch-add-active');
 
               }
             break;
     default:
 
   }
-
-  switchPages(statement);
 }
 
 
@@ -117,19 +112,32 @@ function processSaveRequest(){
         "gender" : "MALE"
     }
 
-    let settings = {
+    $.ajax({
         "url": "http://192.168.1.120:8080/api/employee",
         "method": "POST",
         "data": JSON.stringify(formData),
         "headers": {
             "Content-Type": "application/json"
+        },
+        "complete": function(xhr, textStatus) {
+        console.log(xhr);
+
+        clearInputs();
+
+        confirmMsg.classList.remove("display-none")
+
+        if(xhr.status === 201){
+          confirmMsg.textContent = "OK";
+          confirmMsg.style.color = "#128300";
+        }else if(xhr.status === 0){
+          confirmMsg.textContent = "Connection error";
+          confirmMsg.style.color = "#F11D00";
+        }else{
+          confirmMsg.textContent = xhr.statusText;
+          confirmMsg.style.color = "#F1CB00";
         }
     }
-
-    $.ajax(settings).done(function (response) {
-        confirmMsg.textContent = response;
-        switchPages(switchState);
-    });
+      });
 
 
 }
