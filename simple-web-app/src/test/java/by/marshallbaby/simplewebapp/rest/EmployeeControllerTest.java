@@ -19,9 +19,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -78,7 +79,19 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void getEmployeeById() {
+    void getEmployeeById() throws Exception {
+        when(employeeService.findById(anyLong())).thenReturn(new Employee());
+
+        this.mockMvc.perform(get("/api/employee/{id}", anyLong()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void getEmployeeByIdNotFound() throws Exception{
+        when(employeeService.findById(anyLong())).thenReturn(null);
+
+        this.mockMvc.perform(get("/api/employee/{id}", anyLong()))
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -114,10 +127,38 @@ class EmployeeControllerTest {
     }
 
     @Test
-    void updateEmployee() {
+    void updateEmployee() throws Exception{
+        when(employeeService.findById(anyLong())).thenReturn(new Employee());
+        when(employeeService.update(new Employee())).thenReturn(1);
+
+        this.mockMvc.perform(put("/api/employee/" + anyLong()).contentType(APPLICATION_JSON_UTF8)
+                .content(this.ow.writeValueAsString(new Employee())))
+                .andExpect(status().isOk());
     }
 
     @Test
-    void deleteEmployee() {
+    void updateEmployeeNotFound() throws Exception{
+        when(employeeService.findById(anyLong())).thenReturn(null);
+        when(employeeService.update(new Employee())).thenReturn(1);
+
+        this.mockMvc.perform(put("/api/employee/" + anyLong()).contentType(APPLICATION_JSON_UTF8)
+                        .content(this.ow.writeValueAsString(new Employee())))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void deleteEmployee() throws Exception {
+        when(employeeService.findById(anyLong())).thenReturn(new Employee());
+
+        this.mockMvc.perform(delete("/api/employee/{id}", anyLong())).
+            andExpect(status().isOk());
+    }
+
+    @Test
+    void deleteEmployeeNotFound() throws Exception{
+        when(employeeService.findById(anyLong())).thenReturn(null);
+
+        this.mockMvc.perform(delete("/api/employee/{id}", anyLong())).
+                andExpect(status().isNotFound());
     }
 }
