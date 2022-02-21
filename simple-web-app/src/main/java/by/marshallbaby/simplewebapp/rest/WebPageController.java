@@ -11,8 +11,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class WebPageController {
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index(Model model){
+    @GetMapping("/")
+    public String index(){
         return "index";
     }
 }
