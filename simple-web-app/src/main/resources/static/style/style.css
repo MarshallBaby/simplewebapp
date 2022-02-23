@@ -183,3 +183,7 @@ background: linear-gradient(0deg, rgba(2,0,36,0) 0%, rgba(169,129,255,1) 100%) !
   margin-left: 30px;
   margin-right: 5px;
 }
+
+tr{
+  width: 100px !important;
+}

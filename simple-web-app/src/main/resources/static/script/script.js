@@ -1,3 +1,5 @@
+const DB_PATH = "http://192.168.1.120:8080/api/employee/";
+
 const switchEnum = Object.freeze({
   ADD: 0,
   EDIT: 1,
@@ -87,16 +89,50 @@ function switchHandler(statement){
         break;
         case switchEnum.REMOVE:
             {
+              confimBtn.style.backgroundColor = "#EB5858";
 
+              btnColorRemove();
+              removeBtn.classList.add("switch-remove-active");
+
+              document.querySelectorAll(".remove-field").forEach((item, i) => {
+                item.classList.remove("display-none");
+              });
             }
           break;
           case switchEnum.SEARCH:
               {
+                confimBtn.style.backgroundColor = "#1383D4";
 
+                btnColorRemove();
+                searchBtn.classList.add("switch-search-active");
+
+                document.querySelectorAll(".search-field").forEach((item, i) => {
+                  item.classList.remove("display-none");
+                });
+
+                generateSearchTable();
               }
             break;
     default:
 
+  }
+
+  if(switchState == switchEnum.REMOVE){
+    document.querySelectorAll(".field input").forEach((item) => {
+      item.setAttribute("disabled", "disabled");
+    });
+
+    document.getElementById('add-employee-id').removeAttribute("disabled");
+  }else{
+    document.querySelectorAll(".field input").forEach((item) => {
+      item.removeAttribute("disabled");
+    });
+  }
+
+  if(switchState == switchEnum.SEARCH){
+    document.getElementsByClassName('confirm-area')[0].classList.add('display-none');
+  }else{
+    document.getElementsByClassName('confirm-area')[0].classList.remove('display-none');
   }
 }
 
@@ -105,19 +141,20 @@ switchHandler(switchEnum.ADD);
 
 
 function sendRequest(){
-    confirmIcon.style.display = "flex";
     switch (switchState) {
       case switchEnum.ADD:
             processSaveRequest();
         break;
       case switchEnum.EDIT:
             processEditRequest();
+        break;
+      case switchEnum.REMOVE:
+            processRemoveRequest();
+        break;
       default:
 
     }
 
-
-    confirmIcon.style.display = "none";
 }
 
 function processSaveRequest(){
@@ -130,7 +167,7 @@ function processSaveRequest(){
     }
 
     $.ajax({
-        "url": "http://192.168.1.120:8080/api/employee",
+        "url": DB_PATH,
         "method": "POST",
         "data": JSON.stringify(formData),
         "headers": {
@@ -162,6 +199,55 @@ function processSaveRequest(){
 
 }
 
+function generateSearchTable(){
+
+  $.ajax({
+  type: "GET",
+  dataType: "json",
+  url: DB_PATH,
+  complete: function(data) {
+      if(data.status != 200){
+        return;
+      }
+
+      let result = data.responseJSON;
+      console.log(result);
+
+      let searchTable = document.getElementById('search-table');
+
+      let table = document.createElement('TABLE');
+      table.border = 1;
+
+      let tableBody = document.createElement('TBODY');
+      table.appendChild(tableBody);
+
+      for (var i = 0; i < result.length; i++) {
+        var tr = document.createElement('TR');
+        tableBody.appendChild(tr);
+
+        // TODO: ДОДЕЛАТЬ ТАБЛИЦУ
+
+        tr.appendChild(document.createElement('TD')
+        .appendChild(document.createTextNode(result[i].firstName)));
+        tr.appendChild(document.createElement('TD')
+        .appendChild(document.createTextNode(result[i].lastName)));
+
+        // for (var j = 0; j < result[i]; j++) {
+        //   var td = document.createElement('TD');
+        //   td.width = '75';
+        //   td.appendChild(document.createTextNode(result[i][j]));
+        //   tr.appendChild(td);
+        // }
+      }
+
+      searchTable.appendChild(table);
+
+  }
+});
+
+
+}
+
 function processEditRequest(){
   if(idField.value == ""){
     clearInputs(true);
@@ -184,7 +270,7 @@ function processEditRequest(){
   }
 
   $.ajax({
-    "url": "http://192.168.1.120:8080/api/employee/" + idField.value,
+    "url": DB_PATH + idField.value,
     "method": "PUT",
     "data": JSON.stringify(formData),
     "headers": {
@@ -216,9 +302,40 @@ function processEditRequest(){
   })
 }
 
+function processRemoveRequest(){
+  $.ajax({
+    "url": DB_PATH + idField.value,
+    "method": "DELETE",
+    "complete": function(xhr, textStatus) {
+
+    clearInputs(true);
+
+    console.log(xhr);
+
+    confirmMsg.classList.remove("display-none");
+
+    if(xhr.status === 200){
+      confirmMsg.textContent = "OK";
+      confirmMsg.style.color = "#128300";
+    }else if(xhr.status === 0){
+      confirmMsg.textContent = "Connection error";
+      confirmMsg.style.color = "#F11D00";
+    }else{
+      confirmMsg.textContent = xhr.statusText;
+      confirmMsg.style.color = "#F1CB00";
+    }
+
+    setTimeout(function(){
+      confirmMsg.classList.add("display-none");
+    }, 3000)
+}
+  })
+}
+
 let globalTimeout = null;
 
-function processEditSearchRequest(){
+function processAutoSearchRequest(){
+
     let searchValue = idField.value;
 
     if(globalTimeout != null){
@@ -235,7 +352,7 @@ function processEditSearchRequest(){
         $.ajax({
         type: "GET",
         dataType: "json",
-        url: "http://192.168.1.120:8080/api/employee/" + idField.value,
+        url: DB_PATH + idField.value,
         complete: function(data) {
             if(data.status != 200){
               clearInputs();
@@ -256,9 +373,6 @@ function processEditSearchRequest(){
             document.getElementById('add-job-tag').value = result.jobTitle;
             document.getElementById('add-gender').value = result.gender;
 
-
-
-
         }
     });
 
@@ -267,4 +381,4 @@ function processEditSearchRequest(){
 }
 
 
-idField.addEventListener('keyup', processEditSearchRequest)
+idField.addEventListener('keyup', processAutoSearchRequest)

@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Godel Employee RESTFul App</title>
-    <link rel="stylesheet" th:href="@{/style/style.css}">
+    <!-- <link rel="stylesheet" th:href="@{/style/style.css}"> -->
+    <link rel="stylesheet" href="../static/style/style.css">
+
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Ubuntu:wght@300;400;500&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
@@ -26,15 +28,15 @@
       </div>
 
       <section class="add-form">
-        <div class="field edit-field">
+        <div class="field edit-field remove-field">
           <p>Employee ID</p>
           <input type="number" id="add-employee-id" value="">
         </div>
-          <div class="field add-field edit-field">
+          <div class="field add-field edit-field remove-field">
             <p>First name</p>
             <input type="text" id="add-first-name" value="">
           </div>
-          <div class="field add-field edit-field">
+          <div class="field add-field edit-field remove-field">
             <p>Last name</p>
             <input type="text" id="add-last-name" value="">
           </div>
@@ -54,17 +56,22 @@
               <option value="FEMALE" selected> Female </option>
             </select>
           </div>
+
+          <div id="search-table" class="field search-field">
+
+          </div>
+
           </section>
 
           <div class="confirm-area">
             <div onclick="sendRequest()" id="confirm-button">
-              Save
+              Go
             </div>
-            <img id="confirm-icon" src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/35771931234507.564a1d2403b3a.gif" alt="">
             <p id="confirm-message" class="display-none"></p>
           </div>
       </div>
 
-    <script type="text/javascript" th:src="@{/script/script.js}"></script>
+    <!-- <script type="text/javascript" th:src="@{/script/script.js}"></script> -->
+    <script type="text/javascript" src="../static/script/script.js"></script>
 </body>
 </html>
