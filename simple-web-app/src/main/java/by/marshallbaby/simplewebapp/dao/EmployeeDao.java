@@ -3,20 +3,17 @@ package by.marshallbaby.simplewebapp.dao;
 import by.marshallbaby.simplewebapp.dto.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class EmployeeDao implements EmployeeDaoInterface{
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    // DONE
     @Override
     public int save(Employee employee){
         return jdbcTemplate.update(
@@ -32,7 +29,6 @@ public class EmployeeDao implements EmployeeDaoInterface{
         );
     }
 
-    // DONE
     @Override
     public int update(Employee employee) {
         return jdbcTemplate.update(
@@ -49,7 +45,6 @@ public class EmployeeDao implements EmployeeDaoInterface{
         );
     }
 
-    // DONE
     @Override
     public Employee findById(Long employeeId){
         try{
@@ -62,14 +57,12 @@ public class EmployeeDao implements EmployeeDaoInterface{
         }
     }
 
-    // DONE
     @Override
     public int deleteById(Long employeeId){
         return jdbcTemplate.update("DELETE FROM employee WHERE employee_id = ?",
                 employeeId);
     }
 
-    // DONE
     @Override
     public List<Employee> findAll(){
         return jdbcTemplate.query(
