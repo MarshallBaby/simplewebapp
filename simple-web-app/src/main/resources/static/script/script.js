@@ -1,4 +1,4 @@
-const DB_PATH = "http://192.168.1.120:8080/api/employee/";
+const DB_PATH = "http://127.0.0.1:8080/api/employee/";
 
 const switchEnum = Object.freeze({
   ADD: 0,

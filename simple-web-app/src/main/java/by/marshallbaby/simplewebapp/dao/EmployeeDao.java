@@ -20,8 +20,8 @@ public class EmployeeDao implements EmployeeDaoInterface{
     @Override
     public int save(Employee employee){
         return jdbcTemplate.update(
-                "INSERT INTO employees (first_name, last_name, department_id, job_title, gender) " +
-                        "VALUES (?,?,?,?,?)",
+                "INSERT INTO employee (first_name, last_name, department_id, job_title, gender) " +
+                        "VALUES (?,?,?,?,CAST(? as gender))",
                 new Object[] {
                         employee.getFirstName(),
                         employee.getLastName(),
@@ -36,7 +36,7 @@ public class EmployeeDao implements EmployeeDaoInterface{
     @Override
     public int update(Employee employee) {
         return jdbcTemplate.update(
-                "UPDATE employees SET first_name=?, last_name=?, department_id=?, job_title=?, gender=? " +
+                "UPDATE employee SET first_name=?, last_name=?, department_id=?, job_title=?, gender=? " +
                         " WHERE employee_id=?",
                 new Object[] {
                         employee.getFirstName(),
@@ -54,7 +54,7 @@ public class EmployeeDao implements EmployeeDaoInterface{
     public Employee findById(Long employeeId){
         try{
             Employee employee = jdbcTemplate.queryForObject(
-                    "SELECT * FROM employees WHERE employee_id=?",
+                    "SELECT * FROM employee WHERE employee_id=?",
                     BeanPropertyRowMapper.newInstance(Employee.class), employeeId);
             return employee;
         } catch(IncorrectResultSizeDataAccessException e){
@@ -65,7 +65,7 @@ public class EmployeeDao implements EmployeeDaoInterface{
     // DONE
     @Override
     public int deleteById(Long employeeId){
-        return jdbcTemplate.update("DELETE FROM employees WHERE employee_id = ?",
+        return jdbcTemplate.update("DELETE FROM employee WHERE employee_id = ?",
                 employeeId);
     }
 
@@ -73,7 +73,7 @@ public class EmployeeDao implements EmployeeDaoInterface{
     @Override
     public List<Employee> findAll(){
         return jdbcTemplate.query(
-                "SELECT * FROM employees ORDER BY employee_id",
+                "SELECT * FROM employee ORDER BY employee_id",
                 BeanPropertyRowMapper.newInstance(Employee.class)
         );
     }
