@@ -133,6 +133,14 @@ function switchHandler(statement){
     document.getElementsByClassName('confirm-area')[0].classList.add('display-none');
   }else{
     document.getElementsByClassName('confirm-area')[0].classList.remove('display-none');
+
+
+    try{
+      document.querySelector('#search-table table').remove();
+    }catch(err){
+      // ...
+    }
+
   }
 }
 
@@ -206,38 +214,47 @@ function generateSearchTable(){
   dataType: "json",
   url: DB_PATH,
   complete: function(data) {
+
       if(data.status != 200){
         return;
       }
 
       let result = data.responseJSON;
-      console.log(result);
 
       let searchTable = document.getElementById('search-table');
 
       let table = document.createElement('TABLE');
-      table.border = 1;
 
       let tableBody = document.createElement('TBODY');
       table.appendChild(tableBody);
 
-      for (var i = 0; i < result.length; i++) {
-        var tr = document.createElement('TR');
-        tableBody.appendChild(tr);
+      function appendTD(tr, value){
+            let td = document.createElement('TD');
+            td.appendChild(document.createTextNode(value));
+            tr.appendChild(td);
+      }
 
-        // TODO: ДОДЕЛАТЬ ТАБЛИЦУ
+      for (let i = -1; i < result.length; i++) {
 
-        tr.appendChild(document.createElement('TD')
-        .appendChild(document.createTextNode(result[i].firstName)));
-        tr.appendChild(document.createElement('TD')
-        .appendChild(document.createTextNode(result[i].lastName)));
+          let tr = document.createElement('TR');
 
-        // for (var j = 0; j < result[i]; j++) {
-        //   var td = document.createElement('TD');
-        //   td.width = '75';
-        //   td.appendChild(document.createTextNode(result[i][j]));
-        //   tr.appendChild(td);
-        // }
+          if(i == -1){
+            appendTD(tr, "Employee ID");
+            appendTD(tr, "First Name");
+            appendTD(tr, "Last Name");
+            appendTD(tr, "Department ID");
+            appendTD(tr, "Job Title");
+            appendTD(tr, "Gender");
+          }else{
+            appendTD(tr, result[i].employeeId);
+            appendTD(tr, result[i].firstName);
+            appendTD(tr, result[i].lastName);
+            appendTD(tr, result[i].departmentId);
+            appendTD(tr, result[i].jobTitle);
+            appendTD(tr, result[i].gender);
+          }
+
+          tableBody.appendChild(tr);
       }
 
       searchTable.appendChild(table);
@@ -280,8 +297,6 @@ function processEditRequest(){
 
     clearInputs(true);
 
-    console.log(xhr);
-
     confirmMsg.classList.remove("display-none");
 
     if(xhr.status === 200){
@@ -309,8 +324,6 @@ function processRemoveRequest(){
     "complete": function(xhr, textStatus) {
 
     clearInputs(true);
-
-    console.log(xhr);
 
     confirmMsg.classList.remove("display-none");
 

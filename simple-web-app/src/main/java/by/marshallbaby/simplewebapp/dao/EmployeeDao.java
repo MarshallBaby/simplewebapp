@@ -36,7 +36,7 @@ public class EmployeeDao implements EmployeeDaoInterface{
     @Override
     public int update(Employee employee) {
         return jdbcTemplate.update(
-                "UPDATE employee SET first_name=?, last_name=?, department_id=?, job_title=?, gender=? " +
+                "UPDATE employee SET first_name=?, last_name=?, department_id=?, job_title=?, gender=CAST(? as gender) " +
                         " WHERE employee_id=?",
                 new Object[] {
                         employee.getFirstName(),
