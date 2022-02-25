@@ -17,7 +17,7 @@
             <p>Add</p>
          </div>
          <div onclick="switchHandler(1)" id="editBtn" class="switch">
-            <p>Edit</p>
+            <p>Edit<br>(Search)</p>
          </div>
          <div onclick="switchHandler(2)" id="removeBtn" class="switch">
             <p>Remove</p>
@@ -71,6 +71,10 @@
           </div>
       </div>
 
+    <script type="text/javascript" th:src="@{/script/requests.js}"></script>
+    <script type="text/javascript" th:src="@{/script/switchHandler.js}"></script>
+    <script type="text/javascript" th:src="@{/script/clearInputs.js}"></script>
+    <script type="text/javascript" th:src="@{/script/btnColorRemove.js}"></script>
     <script type="text/javascript" th:src="@{/script/script.js}"></script>
     <!-- <script type="text/javascript" src="../static/script/script.js"></script> -->
 </body>
