@@ -24,7 +24,7 @@ public class EmployeeService{
                 return employeeDao.findById(employeeId);
         }
 
-        public int deteleById(Long employeeId){
+        public int deleteById(Long employeeId){
                 return employeeDao.deleteById(employeeId);
         }
 

@@ -87,7 +87,7 @@ public class EmployeeController {
         try{
             Employee employee = employeeService.findById(employeeId);
             if(employee != null){
-                employeeService.deteleById(employeeId);
+                employeeService.deleteById(employeeId);
                 return new ResponseEntity<>("OK", HttpStatus.OK);
             }else{
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
