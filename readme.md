@@ -7,6 +7,18 @@
 
 UI adress: ***127.0.0.1:8080/***
 
+JSON format of Employee object:
+```
+{
+        "employeeId": 8,
+        "firstName": "Ivan",
+        "lastName": "Petrov",
+        "departmentId": 48,
+        "jobTitle": "Tester",
+        "gender": "MALE"
+    }
+```
+
 API:
 
 1. Save: POST *127.0.0.1:8080/api/employee/*
