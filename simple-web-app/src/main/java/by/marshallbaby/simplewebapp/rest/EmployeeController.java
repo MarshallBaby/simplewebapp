@@ -5,6 +5,7 @@ import by.marshallbaby.simplewebapp.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,10 @@ public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public void jsonErrorHandler(){}
+
 
     @PostMapping("/employee")
     public ResponseEntity<String> saveEmployee(@RequestBody Employee employee){
@@ -26,7 +31,7 @@ public class EmployeeController {
             return new ResponseEntity<>("OK", HttpStatus.CREATED);
         } catch (Exception e){
             e.printStackTrace();
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -66,18 +71,16 @@ public class EmployeeController {
             @PathVariable("id") Long employeeId,
             @RequestBody Employee employee){
 
-        Employee _employee = employeeService.findById(employeeId);
-        if(_employee != null){
-            _employee.setEmployeeId(employeeId);
-            _employee.setFirstName(employee.getFirstName());
-            _employee.setLastName(employee.getLastName());
-            _employee.setDepartmentId(employee.getDepartmentId());
-            _employee.setJobTitle(employee.getJobTitle());
-            _employee.setGender(employee.getGender());
-            employeeService.update(_employee);
-            return new ResponseEntity<>("OK", HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        try{
+            employee.setEmployeeId(employeeId);
+            if(employeeService.update(employee) != 0){
+                return new ResponseEntity<>(HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -85,9 +88,7 @@ public class EmployeeController {
     @DeleteMapping("/employee/{id}")
     public ResponseEntity<String> deleteEmployee(@PathVariable("id") Long employeeId){
         try{
-            Employee employee = employeeService.findById(employeeId);
-            if(employee != null){
-                employeeService.deleteById(employeeId);
+            if(employeeService.deleteById(employeeId) != 0){
                 return new ResponseEntity<>("OK", HttpStatus.OK);
             }else{
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);

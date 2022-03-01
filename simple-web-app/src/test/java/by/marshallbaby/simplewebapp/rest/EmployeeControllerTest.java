@@ -6,12 +6,10 @@ import by.marshallbaby.simplewebapp.service.EmployeeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -21,6 +19,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -58,25 +57,6 @@ class EmployeeControllerTest {
         this.mockMvc.perform(post("/api/employee").contentType(APPLICATION_JSON_UTF8)
                 .content(this.ow.writeValueAsString(new Employee())))
                 .andExpect(status().isCreated());
-    }
-
-    @Test
-    void saveEmployeeBadJson() throws Exception{
-        when(employeeService.save(new Employee())).thenThrow(new RuntimeException());
-
-        String badJson = new String(
-                "{\n" +
-                        "    \"firstName\" : \"haha rabotaet lol\",\n" +
-                        "    \"lastName\" : \"the creator\",\n" +
-                        "    \"departmentId\" : not_number,\n" +
-                        "    \"jobTitle\" : \"developer\",\n" +
-                        "    \"gender\" : \"ALIEN\"\n" +
-                        "}"
-        );
-
-        this.mockMvc.perform(post("/api/employee").contentType(APPLICATION_JSON_UTF8)
-                        .content(badJson))
-                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -129,8 +109,7 @@ class EmployeeControllerTest {
 
     @Test
     void updateEmployee() throws Exception{
-        when(employeeService.findById(anyLong())).thenReturn(new Employee());
-        when(employeeService.update(new Employee())).thenReturn(1);
+        when(employeeService.update(any(Employee.class))).thenReturn(1);
 
         this.mockMvc.perform(put("/api/employee/" + anyLong()).contentType(APPLICATION_JSON_UTF8)
                 .content(this.ow.writeValueAsString(new Employee())))
@@ -139,8 +118,7 @@ class EmployeeControllerTest {
 
     @Test
     void updateEmployeeNotFound() throws Exception{
-        when(employeeService.findById(anyLong())).thenReturn(null);
-        when(employeeService.update(new Employee())).thenReturn(1);
+        when(employeeService.update(new Employee())).thenReturn(0);
 
         this.mockMvc.perform(put("/api/employee/" + anyLong()).contentType(APPLICATION_JSON_UTF8)
                         .content(this.ow.writeValueAsString(new Employee())))
@@ -149,7 +127,7 @@ class EmployeeControllerTest {
 
     @Test
     void deleteEmployee() throws Exception {
-        when(employeeService.findById(anyLong())).thenReturn(new Employee());
+        when(employeeService.deleteById(anyLong())).thenReturn(1);
 
         this.mockMvc.perform(delete("/api/employee/{id}", anyLong())).
             andExpect(status().isOk());
@@ -157,7 +135,7 @@ class EmployeeControllerTest {
 
     @Test
     void deleteEmployeeNotFound() throws Exception{
-        when(employeeService.findById(anyLong())).thenReturn(null);
+        when(employeeService.deleteById(anyLong())).thenReturn(0);
 
         this.mockMvc.perform(delete("/api/employee/{id}", anyLong())).
                 andExpect(status().isNotFound());
