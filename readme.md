@@ -21,8 +21,8 @@ JSON format of Employee object:
 
 API:
 
-1. Save: POST *127.0.0.1:8080/api/employee/*
+1. Save: POST *127.0.0.1:8080/api/employee*
 2. Edit: PUT *127.0.0.1:8080/api/employee/{id}*
 3. Find By Id: GET *127.0.0.1:8080/api/employee/{id}*
-4. Find All: GET *127.0.0.1:8080/api/employee/*
+4. Find All: GET *127.0.0.1:8080/api/employee*
 5. Delete: DELETE *127.0.0.1:8080/api/employee/{id}*
