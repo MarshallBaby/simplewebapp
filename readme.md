@@ -1,7 +1,7 @@
 # Simple Web App
 
 1. Please, create database ***employeedb*** on your PostgreSQL server, then run ***employee.sql*** file.
-2. Edit DB credential in ***application.propetries*** file.
+2. Edit DB credential in configuration class.
 3. Run ***mvn package***
 4. Execute package by ***java -jar***
 
