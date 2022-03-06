@@ -20,7 +20,7 @@ public class AppConfiguration {
         ds.setDriverClassName("org.postgresql.Driver");
         ds.setUrl("jdbc:postgresql://127.0.0.1:5432/employeedb");
         ds.setUsername("postgres");
-        ds.setPassword("32049");
+        ds.setPassword("hochu_v_godel_bezumno");
 
         return ds;
     }
