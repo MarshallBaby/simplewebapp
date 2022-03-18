@@ -12,15 +12,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 
 @Configuration
-@EnableTransactionManagement
 public class AppConfiguration {
     @Bean
     public DataSource dataSource(){
         DriverManagerDataSource ds = new DriverManagerDataSource();
         ds.setDriverClassName("org.postgresql.Driver");
-        ds.setUrl("jdbc:postgresql://127.0.0.1:5432/employeedb");
+        ds.setUrl("jdbc:postgresql://192.168.1.120:5432/employeedb");
         ds.setUsername("postgres");
-        ds.setPassword("hochu_v_godel_bezumno");
+        ds.setPassword("32049");
 
         return ds;
     }

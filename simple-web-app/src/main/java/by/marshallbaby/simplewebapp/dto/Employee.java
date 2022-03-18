@@ -1,12 +1,7 @@
 package by.marshallbaby.simplewebapp.dto;
 
-import javax.persistence.*;
-
-
-@Entity
 public class Employee {
 
-    @Id
     private Long employeeId;
     private String firstName;
     private String lastName;
