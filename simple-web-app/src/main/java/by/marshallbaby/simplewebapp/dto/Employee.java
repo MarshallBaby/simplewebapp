@@ -7,6 +7,7 @@ import org.hibernate.annotations.TypeDef;
 import javax.persistence.*;
 
 @Entity
+// TODO: уточнить про Enum Cast
 @TypeDef(
         name = "pgsql_enum",
         typeClass = PostgreSQLEnumType.class

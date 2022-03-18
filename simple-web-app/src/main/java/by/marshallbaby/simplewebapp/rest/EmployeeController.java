@@ -11,25 +11,27 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+// @RestController + @Contoller fix
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api")
 public class EmployeeController {
+
     @Autowired
     EmployeeService employeeService;
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public void jsonErrorHandler(){}
+    public void jsonErrorHandler() {
+    }
 
-    // REST URL NamiConvention fix
+    // REST URL Name Convention fix
 
     @PostMapping("/employees")
-    public ResponseEntity<String> saveEmployee(@RequestBody Employee employee){
-        try{
-            employeeService.save(employee);
-            return new ResponseEntity<>("OK", HttpStatus.CREATED);
-        } catch (Exception e){
+    public ResponseEntity<Employee> saveEmployee(@RequestBody Employee employee) {
+        try {
+            return new ResponseEntity<>(employeeService.save(employee), HttpStatus.CREATED);
+        } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
