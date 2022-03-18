@@ -1,17 +1,31 @@
 package by.marshallbaby.simplewebapp.dto;
 
+import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+
+import javax.persistence.*;
+
+@Entity
+@TypeDef(
+        name = "pgsql_enum",
+        typeClass = PostgreSQLEnumType.class
+)
 public class Employee {
 
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long employeeId;
     private String firstName;
     private String lastName;
     private Integer departmentId;
     private String jobTitle;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "gender")
+    @Type(type = "pgsql_enum")
     private Gender gender;
 
-    public Employee(){
-
-    };
+    public Employee(){}
 
     public Employee(Long employeeId,
                     String firstName,
@@ -86,5 +100,17 @@ public class Employee {
 
     public Gender getGender() {
         return gender;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "employeeId=" + employeeId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", departmentId=" + departmentId +
+                ", jobTitle='" + jobTitle + '\'' +
+                ", gender=" + gender +
+                '}';
     }
 }

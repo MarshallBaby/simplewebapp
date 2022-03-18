@@ -22,8 +22,9 @@ public class EmployeeController {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public void jsonErrorHandler(){}
 
+    // REST URL NamiConvention fix
 
-    @PostMapping("/employee")
+    @PostMapping("/employees")
     public ResponseEntity<String> saveEmployee(@RequestBody Employee employee){
         try{
             employeeService.save(employee);
@@ -34,67 +35,67 @@ public class EmployeeController {
         }
     }
 
-    @GetMapping("/employee/{id}")
-    public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") Long employeeId){
-        Employee employee = employeeService.findById(employeeId);
-        try{
-            if(employee != null){
-                return new ResponseEntity<>(employee, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @GetMapping("/employee")
-    public ResponseEntity<List<Employee>> getAll() {
-        try{
-            List<Employee> employees = employeeService.findAll();
-
-            if (employees.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }else{
-                return new ResponseEntity<>(employees, HttpStatus.OK);
-            }
-        }catch(Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-    }
-
-    @PutMapping("/employee/{id}")
-    public ResponseEntity<String> updateEmployee(
-            @PathVariable("id") Long employeeId,
-            @RequestBody Employee employee){
-
-        try{
-            employee.setEmployeeId(employeeId);
-            if(employeeService.update(employee) != 0){
-                return new ResponseEntity<>(HttpStatus.OK);
-            }else{
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-
-    @DeleteMapping("/employee/{id}")
-    public ResponseEntity<String> deleteEmployee(@PathVariable("id") Long employeeId){
-        try{
-            if(employeeService.deleteById(employeeId) != 0){
-                return new ResponseEntity<>("OK", HttpStatus.OK);
-            }else{
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        }catch(Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+//    @GetMapping("/employee/{id}")
+//    public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") Long employeeId){
+//        Employee employee = employeeService.findById(employeeId);
+//        try{
+//            if(employee != null){
+//                return new ResponseEntity<>(employee, HttpStatus.OK);
+//            } else {
+//                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//            }
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+//
+//    @GetMapping("/employee")
+//    public ResponseEntity<List<Employee>> getAll() {
+//        try{
+//            List<Employee> employees = employeeService.findAll();
+//
+//            if (employees.isEmpty()) {
+//                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//            }else{
+//                return new ResponseEntity<>(employees, HttpStatus.OK);
+//            }
+//        }catch(Exception e){
+//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//
+//    }
+//
+//    @PutMapping("/employee/{id}")
+//    public ResponseEntity<String> updateEmployee(
+//            @PathVariable("id") Long employeeId,
+//            @RequestBody Employee employee){
+//
+//        try{
+//            employee.setEmployeeId(employeeId);
+//            if(employeeService.update(employee) != 0){
+//                return new ResponseEntity<>(HttpStatus.OK);
+//            }else{
+//                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//            }
+//        }catch(Exception e){
+//            e.printStackTrace();
+//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+//
+//
+//    @DeleteMapping("/employee/{id}")
+//    public ResponseEntity<String> deleteEmployee(@PathVariable("id") Long employeeId){
+//        try{
+//            if(employeeService.deleteById(employeeId) != 0){
+//                return new ResponseEntity<>("OK", HttpStatus.OK);
+//            }else{
+//                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//            }
+//        }catch(Exception e){
+//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 
 }

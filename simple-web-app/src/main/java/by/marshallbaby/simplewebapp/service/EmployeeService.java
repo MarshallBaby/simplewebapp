@@ -12,23 +12,23 @@ public class EmployeeService{
         @Autowired
         EmployeeDao employeeDao;
 
-        public int save(Employee employee){
+        public Employee save(Employee employee){
                 return employeeDao.save(employee);
         }
 
-        public int update(Employee employee) {
-                return employeeDao.update(employee);
-        }
-
-        public Employee findById(Long employeeId){
-                return employeeDao.findById(employeeId);
-        }
-
-        public int deleteById(Long employeeId){
-                return employeeDao.deleteById(employeeId);
-        }
-
-        public List<Employee> findAll(){
-                return employeeDao.findAll();
-        }
+//        public int update(Employee employee) {
+//                return employeeDao.update(employee);
+//        }
+//
+//        public Employee findById(Long employeeId){
+//                return employeeDao.findById(employeeId);
+//        }
+//
+//        public int deleteById(Long employeeId){
+//                return employeeDao.deleteById(employeeId);
+//        }
+//
+//        public List<Employee> findAll(){
+//                return employeeDao.findAll();
+//        }
 }
