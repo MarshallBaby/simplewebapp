@@ -3,6 +3,7 @@ package by.marshallbaby.simplewebapp.rest;
 import by.marshallbaby.simplewebapp.dto.Employee;
 import by.marshallbaby.simplewebapp.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -21,9 +22,16 @@ public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
 
+    // TODO: Уточнить норм ли так ловить исключения?
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public void jsonErrorHandler() {
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(EmptyResultDataAccessException.class)
+    public void notFound() {
     }
 
     // REST URL Name Convention fix
@@ -31,7 +39,7 @@ public class EmployeeController {
     // TODO: Уточнить как разрулить save и saveAll
     // https://stackoverflow.com/q/53519006/15046229
 
-    // TODO: Поспршать про нейминг контроллеров
+    // TODO: Поспрашать про нейминг контроллеров
 
 //    @PostMapping("/employees")
 //    public ResponseEntity<Employee> saveEmployee(@RequestBody Employee employee) {
@@ -44,8 +52,23 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees")
-    public ResponseEntity<Iterable<Employee>> findAllEmloyees() {
-        return new ResponseEntity<>(employeeService.findAll(), HttpStatus.OK);
+    public ResponseEntity<Iterable<Employee>> findEmployees(
+            @RequestParam(value = "first-name", required = false) String firstName,
+            @RequestParam(value = "last-name", required = false) String lastName
+    ) {
+        if (firstName == null && lastName == null) {
+            return new ResponseEntity<>(employeeService.findAll(), HttpStatus.OK);
+        }
+
+        // ??? КОСТЫЛЬ ???
+        Iterable<Employee> employees = employeeService
+                .findByFirstNameLikeOrLastNameLike('%' + firstName + '%', '%' + lastName + '%');
+
+        if (employees.spliterator().getExactSizeIfKnown() != 0) {
+            return new ResponseEntity<>(employees, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
     }
 
     @GetMapping("/employees/{id}")
@@ -55,13 +78,10 @@ public class EmployeeController {
 
     @DeleteMapping("/employees/{id}")
     public ResponseEntity<String> deleteEmployeeById(@PathVariable("id") Long id) {
-        // TODO: Уточнить в каком месте ловить EmptyResultDataAccessException
-
         employeeService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    // TODO: Переделать
     @PutMapping("/employees")
     public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee) {
         return new ResponseEntity<>(employeeService.update(employee), HttpStatus.OK);
