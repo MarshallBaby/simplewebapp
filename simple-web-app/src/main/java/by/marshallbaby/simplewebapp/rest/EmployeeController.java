@@ -10,8 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
-// @RestController + @Contoller fix
+// @RestController + @Controller fix
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api")
@@ -27,77 +28,43 @@ public class EmployeeController {
 
     // REST URL Name Convention fix
 
+    // TODO: Уточнить как разрулить save и saveAll
+    // https://stackoverflow.com/q/53519006/15046229
+
+    // TODO: Поспршать про нейминг контроллеров
+
+//    @PostMapping("/employees")
+//    public ResponseEntity<Employee> saveEmployee(@RequestBody Employee employee) {
+//        return new ResponseEntity<>(employeeService.save(employee), HttpStatus.CREATED);
+//    }
+
     @PostMapping("/employees")
-    public ResponseEntity<Employee> saveEmployee(@RequestBody Employee employee) {
-        try {
-            return new ResponseEntity<>(employeeService.save(employee), HttpStatus.CREATED);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<Iterable<Employee>> saveAllEmployees(@RequestBody Iterable<Employee> employees) {
+        return new ResponseEntity<>(employeeService.saveAll(employees), HttpStatus.CREATED);
     }
 
-//    @GetMapping("/employee/{id}")
-//    public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") Long employeeId){
-//        Employee employee = employeeService.findById(employeeId);
-//        try{
-//            if(employee != null){
-//                return new ResponseEntity<>(employee, HttpStatus.OK);
-//            } else {
-//                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//            }
-//        }catch (Exception e){
-//            e.printStackTrace();
-//            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
-//
-//    @GetMapping("/employee")
-//    public ResponseEntity<List<Employee>> getAll() {
-//        try{
-//            List<Employee> employees = employeeService.findAll();
-//
-//            if (employees.isEmpty()) {
-//                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//            }else{
-//                return new ResponseEntity<>(employees, HttpStatus.OK);
-//            }
-//        }catch(Exception e){
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//
-//    }
-//
-//    @PutMapping("/employee/{id}")
-//    public ResponseEntity<String> updateEmployee(
-//            @PathVariable("id") Long employeeId,
-//            @RequestBody Employee employee){
-//
-//        try{
-//            employee.setEmployeeId(employeeId);
-//            if(employeeService.update(employee) != 0){
-//                return new ResponseEntity<>(HttpStatus.OK);
-//            }else{
-//                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//            }
-//        }catch(Exception e){
-//            e.printStackTrace();
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
-//
-//
-//    @DeleteMapping("/employee/{id}")
-//    public ResponseEntity<String> deleteEmployee(@PathVariable("id") Long employeeId){
-//        try{
-//            if(employeeService.deleteById(employeeId) != 0){
-//                return new ResponseEntity<>("OK", HttpStatus.OK);
-//            }else{
-//                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//            }
-//        }catch(Exception e){
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
+    @GetMapping("/employees")
+    public ResponseEntity<Iterable<Employee>> findAllEmloyees() {
+        return new ResponseEntity<>(employeeService.findAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("/employees/{id}")
+    public ResponseEntity<Optional<Employee>> findEmployeeById(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(employeeService.findById(id), HttpStatus.FOUND);
+    }
+
+    @DeleteMapping("/employees/{id}")
+    public ResponseEntity<String> deleteEmployeeById(@PathVariable("id") Long id) {
+        // TODO: Уточнить в каком месте ловить EmptyResultDataAccessException
+
+        employeeService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    // TODO: Переделать
+    @PutMapping("/employees")
+    public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee) {
+        return new ResponseEntity<>(employeeService.update(employee), HttpStatus.OK);
+    }
 
 }

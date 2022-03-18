@@ -18,7 +18,7 @@ public class AppConfiguration {
                 .username("postgres")
                 .password("32049")
                 .driverClassName("org.postgresql.Driver")
-                .url("jdbc:postgresql://192.168.1.120:5432/employeedb")
+                .url("jdbc:postgresql://127.0.0.1:5432/employeedb")
                 .build();
     }
 }
