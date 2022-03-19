@@ -1,6 +1,7 @@
 package by.marshallbaby.simplewebapp.dao;
 
 import by.marshallbaby.simplewebapp.dto.Employee;
+import by.marshallbaby.simplewebapp.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -21,6 +22,6 @@ public class EmployeeRepositoryImpl implements EmployeeRepositoryCustom {
             return employeeRepository.save(employee);
         }
 
-        throw new EmptyResultDataAccessException(1);
+        throw new ResourceNotFoundException("Not found!");
     }
 }

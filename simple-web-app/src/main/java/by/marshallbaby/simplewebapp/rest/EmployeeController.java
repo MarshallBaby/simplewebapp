@@ -1,6 +1,7 @@
 package by.marshallbaby.simplewebapp.rest;
 
 import by.marshallbaby.simplewebapp.dto.Employee;
+import by.marshallbaby.simplewebapp.exception.ResourceNotFoundException;
 import by.marshallbaby.simplewebapp.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -22,17 +23,15 @@ public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
 
-    // TODO: Уточнить норм ли так ловить исключения?
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public void jsonErrorHandler() {
-    }
-
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(EmptyResultDataAccessException.class)
-    public void notFound() {
-    }
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    @ExceptionHandler(HttpMessageNotReadableException.class)
+//    public void jsonErrorHandler() {
+//    }
+//
+//    @ResponseStatus(HttpStatus.NOT_FOUND)
+//    @ExceptionHandler(EmptyResultDataAccessException.class)
+//    public void notFound() {
+//    }
 
     // REST URL Name Convention fix
 
@@ -67,7 +66,7 @@ public class EmployeeController {
         if (employees.spliterator().getExactSizeIfKnown() != 0) {
             return new ResponseEntity<>(employees, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            throw new ResourceNotFoundException("Not found!");
         }
     }
 
