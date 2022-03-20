@@ -2,6 +2,8 @@ package by.marshallbaby.simplewebapp.service;
 
 import by.marshallbaby.simplewebapp.dao.EmployeeRepository;
 import by.marshallbaby.simplewebapp.dto.Employee;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,9 @@ import java.util.Optional;
 
 @Service
 public class EmployeeService{
+
+        Logger logger = LoggerFactory.getLogger("by.marshallbaby.log4j2demo");
+
         @Autowired
         EmployeeRepository employeeRepository;
 
@@ -22,6 +27,14 @@ public class EmployeeService{
         }
 
         public Iterable<Employee> findAll(){
+
+                // Logger test
+                // Logger lvl switching via Actuator API:
+                // https://ibb.co/fCzvZbX
+
+                logger.info("Hello from EmployeeService!");
+                logger.error("Hello from EmployeeService!(Error)");
+
                 return employeeRepository.findAll();
         }
 

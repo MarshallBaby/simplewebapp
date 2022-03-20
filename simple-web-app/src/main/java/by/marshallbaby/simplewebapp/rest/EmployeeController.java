@@ -23,16 +23,6 @@ public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
 
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    @ExceptionHandler(HttpMessageNotReadableException.class)
-//    public void jsonErrorHandler() {
-//    }
-//
-//    @ResponseStatus(HttpStatus.NOT_FOUND)
-//    @ExceptionHandler(EmptyResultDataAccessException.class)
-//    public void notFound() {
-//    }
-
     // REST URL Name Convention fix
 
     // TODO: Уточнить как разрулить save и saveAll

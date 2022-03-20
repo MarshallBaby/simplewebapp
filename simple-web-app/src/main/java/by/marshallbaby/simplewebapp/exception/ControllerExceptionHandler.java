@@ -18,7 +18,7 @@ public class ControllerExceptionHandler {
     // Custom exception
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    public ErrorMessage resourceNotFoundException(ResourceNotFoundException e, WebRequest request){
+    public ErrorMessage resourceNotFoundException(ResourceNotFoundException e, WebRequest request) {
         return new ErrorMessage(
                 HttpStatus.NOT_FOUND.value(),
                 new Date(),
@@ -29,7 +29,7 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ErrorMessage httpMessageNotReadableException(HttpMessageNotReadableException e, WebRequest request){
+    public ErrorMessage httpMessageNotReadableException(HttpMessageNotReadableException e, WebRequest request) {
         return new ErrorMessage(
                 HttpStatus.BAD_REQUEST.value(),
                 new Date(),
@@ -40,7 +40,7 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorMessage globalException(Exception e, WebRequest request){
+    public ErrorMessage globalException(Exception e, WebRequest request) {
         return new ErrorMessage(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 new Date(),
