@@ -5,6 +5,7 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 
 @Entity
 // TODO: уточнить про Enum Cast
@@ -25,6 +26,8 @@ public class Employee {
     @Column(name = "gender")
     @Type(type = "pgsql_enum")
     private Gender gender;
+    @Min(value = 18, message = "Age must be 18+")
+    private Integer age;
 
     public Employee(){}
 
@@ -33,13 +36,15 @@ public class Employee {
                     String lastName,
                     Integer departmentId,
                     String jobTitle,
-                    Gender gender){
+                    Gender gender,
+                    Integer age){
         this.employeeId = employeeId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.departmentId = departmentId;
         this.jobTitle = jobTitle;
         this.gender = gender;
+        this.age = age;
     }
 
     public Employee(
@@ -47,12 +52,14 @@ public class Employee {
                     String lastName,
                     Integer departmentId,
                     String jobTitle,
-                    Gender gender){
+                    Gender gender,
+                    Integer age){
         this.firstName = firstName;
         this.lastName = lastName;
         this.departmentId = departmentId;
         this.jobTitle = jobTitle;
         this.gender = gender;
+        this.age = age;
     }
 
     public void setEmployeeId(Long employeeId) {
@@ -101,6 +108,14 @@ public class Employee {
 
     public Gender getGender() {
         return gender;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public Integer getAge() {
+        return age;
     }
 
     @Override

@@ -9,8 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +38,7 @@ public class EmployeeController {
 //    }
 
     @PostMapping("/employees")
-    public ResponseEntity<Iterable<Employee>> saveAllEmployees(@RequestBody Iterable<Employee> employees) {
+    public ResponseEntity<Iterable<Employee>> saveAllEmployees(@RequestBody Iterable<@Valid Employee> employees) {
         return new ResponseEntity<>(employeeService.saveAll(employees), HttpStatus.CREATED);
     }
 
@@ -72,7 +74,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/employees")
-    public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee) {
+    public ResponseEntity<Employee> updateEmployee(@Valid @RequestBody Employee employee) {
         return new ResponseEntity<>(employeeService.update(employee), HttpStatus.OK);
     }
 
