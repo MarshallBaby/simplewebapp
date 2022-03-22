@@ -28,31 +28,17 @@ public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
 
-    // REST URL Name Convention fix
-
-    // TODO: Уточнить как разрулить save и saveAll
-    // https://stackoverflow.com/q/53519006/15046229
-
-    // TODO: Поспрашать про нейминг контроллеров
-
-//    @PostMapping("/employees")
-//    public ResponseEntity<Employee> saveEmployee(@RequestBody Employee employee) {
-//        return new ResponseEntity<>(employeeService.save(employee), HttpStatus.CREATED);
-//    }
-
-    @Operation(summary = "Save Employees")
     @PostMapping("/employees")
-    public ResponseEntity<Iterable<Employee>> saveAllEmployees(@RequestBody Iterable<@Valid Employee> employees) {
-        return new ResponseEntity<>(employeeService.saveAll(employees), HttpStatus.CREATED);
+    public Employee saveEmployee(@Valid @RequestBody Employee employee) {
+        return employeeService.save(employee);
     }
 
-    @Operation(summary = "Find all employees", description = "Also you're able to filter employees by first name and last name")
     @GetMapping("/employees")
     public ResponseEntity<Iterable<Employee>> findEmployees(
             @RequestParam(value = "first-name", required = false) String firstName,
             @RequestParam(value = "last-name", required = false) String lastName
     ) {
-        if (firstName == null && lastName == null) {
+        if (firstName == null || lastName == null) {
             return new ResponseEntity<>(employeeService.findAll(), HttpStatus.OK);
         }
 
@@ -67,23 +53,20 @@ public class EmployeeController {
         }
     }
 
-    @Operation(summary = "Get employee by ID")
     @GetMapping("/employees/{id}")
-    public ResponseEntity<Optional<Employee>> findEmployeeById(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(employeeService.findById(id), HttpStatus.FOUND);
+    public Employee findEmployeeById(@PathVariable("id") Long id) {
+        return employeeService.findById(id);
     }
 
-    @Operation(summary = "Detele employee by ID")
     @DeleteMapping("/employees/{id}")
-    public ResponseEntity<String> deleteEmployeeById(@PathVariable("id") Long id) {
+    public String deleteEmployeeById(@PathVariable("id") Long id) {
         employeeService.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return "OK";
     }
 
-    @Operation(summary = "Update employee if exists")
     @PutMapping("/employees")
-    public ResponseEntity<Employee> updateEmployee(@Valid @RequestBody Employee employee) {
-        return new ResponseEntity<>(employeeService.update(employee), HttpStatus.OK);
+    public Employee updateEmployee(@RequestBody Employee employee) {
+        return employeeService.update(employee);
     }
 
 }

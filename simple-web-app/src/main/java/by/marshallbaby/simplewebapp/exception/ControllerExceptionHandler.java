@@ -2,6 +2,7 @@ package by.marshallbaby.simplewebapp.exception;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -19,12 +20,9 @@ public class ControllerExceptionHandler {
 
     private Logger logger = LoggerFactory.getLogger("by.marshallbaby.log4j2demo");
 
-    // TODO: Уточнить, можно ли юзнуть Generic методы вместо копипаста конструктора ErrorMessage
-
-    // Custom exception
-    @ExceptionHandler(ResourceNotFoundException.class)
+    @ExceptionHandler({ResourceNotFoundException.class, EmptyResultDataAccessException.class})
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    public ErrorMessage resourceNotFoundException(ResourceNotFoundException e, WebRequest request) {
+    public ErrorMessage resourceNotFoundException(Exception e, WebRequest request) {
         return new ErrorMessage(
                 HttpStatus.NOT_FOUND.value(),
                 new Date(),
@@ -35,7 +33,7 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ErrorMessage httpMessageNotReadableException(HttpMessageNotReadableException e, WebRequest request) {
+    public ErrorMessage httpMessageNotReadableException(Exception e, WebRequest request) {
         return new ErrorMessage(
                 HttpStatus.BAD_REQUEST.value(),
                 new Date(),

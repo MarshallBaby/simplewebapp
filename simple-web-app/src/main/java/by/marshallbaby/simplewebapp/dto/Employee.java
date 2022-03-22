@@ -1,6 +1,7 @@
 package by.marshallbaby.simplewebapp.dto;
 
 import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
@@ -13,6 +14,7 @@ import javax.validation.constraints.Min;
         name = "pgsql_enum",
         typeClass = PostgreSQLEnumType.class
 )
+@DynamicUpdate
 public class Employee {
 
     @Id
@@ -127,6 +129,7 @@ public class Employee {
                 ", departmentId=" + departmentId +
                 ", jobTitle='" + jobTitle + '\'' +
                 ", gender=" + gender +
+                ", age=" + age +
                 '}';
     }
 }
