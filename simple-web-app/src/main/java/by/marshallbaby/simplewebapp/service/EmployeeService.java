@@ -9,15 +9,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import javax.validation.Valid;
 import java.beans.FeatureDescriptor;
-import java.lang.reflect.Field;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 @Service
@@ -57,12 +54,12 @@ public class EmployeeService {
         employeeRepository.deleteById(id);
     }
 
-    @Transactional
     public Employee update(Employee employee) {
         Employee _employee = employeeRepository
                 .findById(employee.getEmployeeId())
                 .orElseThrow(() -> new ResourceNotFoundException(employee.getEmployeeId() + " not found."));
 
+        // Generating array of null properties
         BeanWrapper wrappedEmployee = new BeanWrapperImpl(employee);
         String[] nullFields = Stream.of(wrappedEmployee.getPropertyDescriptors())
                 .map(FeatureDescriptor::getName)
@@ -73,7 +70,7 @@ public class EmployeeService {
         return employeeRepository.save(_employee);
     }
 
-    public Iterable<Employee> findByFirstNameLikeOrLastNameLike(String firstName, String lastName) {
-        return employeeRepository.findByFirstNameLikeOrLastNameLike(firstName, lastName);
+    public List<Employee> findEmployees(String firstName, String lastName) {
+        return employeeRepository.findByFirstNameContainsAndLastNameContains(firstName, lastName);
     }
 }

@@ -19,6 +19,10 @@
             <AppenderRef ref="AppLogAppender"/>
         </Logger>
 
+        <Logger name="by.marshallbaby.debug" level="debug" additivity="false">
+            <AppenderRef ref="ConsoleAppender"/>
+        </Logger>
+
         <Root level="debug">
             <AppenderRef ref="ConsoleAppender"/>
         </Root>
