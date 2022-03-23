@@ -1,12 +1,14 @@
 package by.marshallbaby.simplewebapp.dto;
 
 import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
+import io.micrometer.core.lang.Nullable;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Null;
 
 @Entity
 // TODO: уточнить про Enum Cast
@@ -28,6 +30,8 @@ public class Employee {
     @Column(name = "gender")
     @Type(type = "pgsql_enum")
     private Gender gender;
+
+
     @Min(value = 18, message = "Age must be 18+")
     private Integer age;
 

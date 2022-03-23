@@ -42,7 +42,7 @@ public class ControllerExceptionHandler {
         );
     }
 
-    @ExceptionHandler({MethodArgumentNotValidException.class, ConstraintViolationException.class})
+    @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ErrorMessage validationException(Exception e, WebRequest request) {
         return new ErrorMessage(

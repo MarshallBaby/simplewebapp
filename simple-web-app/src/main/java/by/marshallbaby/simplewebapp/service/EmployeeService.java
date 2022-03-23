@@ -9,10 +9,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
 import java.beans.FeatureDescriptor;
 import java.util.List;
 import java.util.stream.Stream;
@@ -59,7 +56,7 @@ public class EmployeeService {
                 .findById(employee.getEmployeeId())
                 .orElseThrow(() -> new ResourceNotFoundException(employee.getEmployeeId() + " not found."));
 
-        // Generating array of null properties
+        // Generating array of null properties of employee object
         BeanWrapper wrappedEmployee = new BeanWrapperImpl(employee);
         String[] nullFields = Stream.of(wrappedEmployee.getPropertyDescriptors())
                 .map(FeatureDescriptor::getName)

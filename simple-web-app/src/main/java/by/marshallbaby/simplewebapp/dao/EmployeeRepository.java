@@ -9,5 +9,4 @@ import java.util.List;
 public interface EmployeeRepository extends CrudRepository<Employee, Long>{
     List<Employee> findByFirstNameContainsAndLastNameContains(String firstName, String lastName);
     List<Employee> findAll();
-    Employee save(@Valid Employee employee);
 }
