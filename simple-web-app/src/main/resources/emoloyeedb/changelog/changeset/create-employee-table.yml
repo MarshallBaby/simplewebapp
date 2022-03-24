@@ -3,11 +3,9 @@ databaseChangeLog:
       id: create-employee-table
       author: Alexey Yatsevich
       changes:
-        - sql:
-            dbms: postgres
-            sql: create type gender as enum('MALE', 'FEMALE')
         - createTable:
             catalogName: employeedb
+            tableName: employee
             columns:
               - column:
                   name: employee_id
@@ -34,4 +32,3 @@ databaseChangeLog:
                   type: integer
                   constraints:
                     nullable: true
-            tableName: employee
