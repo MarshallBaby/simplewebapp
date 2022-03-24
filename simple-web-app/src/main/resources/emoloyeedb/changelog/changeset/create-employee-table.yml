@@ -3,9 +3,9 @@ databaseChangeLog:
       id: create-employee-table
       author: Alexey Yatsevich
       changes:
-        - sqlFile:
-            dbms: postgresql
-            path: static/sql/gender.sql
+        - sql:
+            dbms: postgres
+            sql: create type gender as enum('MALE', 'FEMALE')
         - createTable:
             catalogName: employee
             columns:
