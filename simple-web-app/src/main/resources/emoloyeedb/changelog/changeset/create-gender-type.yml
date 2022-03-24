@@ -1,8 +1,0 @@
-databaseChangeLog:
-  - changeSet:
-      id: create-gender-type
-      author: Alexey Yatsevich
-      changes:
-        - sql:
-            dbms: postgres
-            sql: create type gender as enum('MALE', 'FEMALE')
