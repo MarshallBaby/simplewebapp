@@ -1,15 +1,3 @@
-CREATE TYPE gender AS ENUM ('MALE', 'FEMALE');
-CREATE TABLE employee (
-	employee_id BIGSERIAL NOT NULL,
-	first_name VARCHAR(255),
-	last_name VARCHAR(255),
-	department_id INT,
-	job_title VARCHAR(255),
-	gender gender,
-    age INT NOT NULL
-);
-	
-	
 INSERT INTO employee (first_name, last_name, department_id, job_title, gender, age)
 	VALUES ('Lisa', 'Fregoso', 54, 'Development', CAST('FEMALE' as gender), 32);
 INSERT INTO employee (first_name, last_name, department_id, job_title, gender, age)
