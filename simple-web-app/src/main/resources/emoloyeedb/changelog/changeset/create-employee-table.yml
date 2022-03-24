@@ -7,7 +7,7 @@ databaseChangeLog:
             dbms: postgres
             sql: create type gender as enum('MALE', 'FEMALE')
         - createTable:
-            catalogName: employee
+            catalogName: employeedb
             columns:
               - column:
                   name: employee_id
