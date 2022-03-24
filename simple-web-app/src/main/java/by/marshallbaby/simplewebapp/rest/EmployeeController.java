@@ -2,15 +2,17 @@ package by.marshallbaby.simplewebapp.rest;
 
 import by.marshallbaby.simplewebapp.dto.Employee;
 import by.marshallbaby.simplewebapp.service.EmployeeService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
-@RestController
+//@RestController
+@Component
+@ResponseBody
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api/employees")
 public class EmployeeController {

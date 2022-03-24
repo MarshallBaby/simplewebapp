@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://192.168.1.120:5432/employeedb
+    username: postgres
+    password: 32049
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  liquibase:
+    change-log: emoloyeedb/changelog/employeedb.changelog-master.yml
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+management:
+  endpoints:
+    loggers:
+      enabled: true
+    web:
+      exposure:
+        include:
+          - loggers
+
+
