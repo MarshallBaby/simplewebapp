@@ -9,7 +9,14 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
+
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
+import javax.jms.TextMessage;
 import java.beans.FeatureDescriptor;
 import java.util.List;
 import java.util.stream.Stream;
@@ -17,29 +24,16 @@ import java.util.stream.Stream;
 @Service
 public class EmployeeService {
 
-    Logger logger = LoggerFactory.getLogger("by.marshallbaby.log4j2demo");
+    private final Logger logger = LoggerFactory.getLogger("by.marshallbaby.log4j2demo");
 
     @Autowired
     EmployeeRepository employeeRepository;
 
+    @Autowired
+    JmsTemplate jmsTemplate;
+
     public Employee save(Employee employee) {
         return employeeRepository.save(employee);
-    }
-
-    public Iterable<Employee> saveAll(Iterable<Employee> employees) {
-        return employeeRepository.saveAll(employees);
-    }
-
-    public Iterable<Employee> findAll() {
-
-        // Logger test
-        // Logger lvl switching via Actuator API:
-        // https://ibb.co/fCzvZbX
-
-        logger.info("Hello from EmployeeService!");
-        logger.error("Hello from EmployeeService!(Error)");
-
-        return employeeRepository.findAll();
     }
 
     public Employee findById(Long id) {
@@ -68,6 +62,24 @@ public class EmployeeService {
     }
 
     public List<Employee> findEmployees(String firstName, String lastName) {
+
+        // Logger test
+        // Logger lvl switching via Actuator API:
+        // https://ibb.co/fCzvZbX
+
+        logger.info("Hello from EmployeeService!");
+        logger.error("Hello from EmployeeService!(Error)");
+
+        jmsTemplate.send("employee.queue", new MessageCreator() {
+            @Override
+            public Message createMessage(Session session) throws JMSException {
+                TextMessage textMessage = session.createTextMessage();
+                textMessage.setText("Hello from EmployeeService!");
+                return textMessage;
+            }
+        });
+
+
         return employeeRepository.findByFirstNameContainsAndLastNameContains(firstName, lastName);
     }
 }

@@ -12,6 +12,9 @@
         <File name="AppLogAppender" fileName="logs/app.log">
             <PatternLayout pattern="${LOG_PATTERN}"/>
         </File>
+        <File name="JmsLogAppender" fileName="logs/jms.log">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </File>
     </Appenders>
     <Loggers>
         <Logger name="by.marshallbaby.log4j2demo" level="warn" additivity="false">
@@ -19,11 +22,12 @@
             <AppenderRef ref="AppLogAppender"/>
         </Logger>
 
-        <Logger name="by.marshallbaby.debug" level="debug" additivity="false">
+        <Logger name="by.marshallbaby.jms" level="info" additivity="false">
             <AppenderRef ref="ConsoleAppender"/>
+            <AppenderRef ref="JmsLogAppender"/>
         </Logger>
 
-        <Root level="debug">
+        <Root level="info">
             <AppenderRef ref="ConsoleAppender"/>
         </Root>
     </Loggers>
