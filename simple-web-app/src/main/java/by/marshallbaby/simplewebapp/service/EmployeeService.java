@@ -1,34 +1,75 @@
 package by.marshallbaby.simplewebapp.service;
 
-import by.marshallbaby.simplewebapp.dao.EmployeeDao;
+import by.marshallbaby.simplewebapp.dao.EmployeeRepository;
 import by.marshallbaby.simplewebapp.dto.Employee;
+import by.marshallbaby.simplewebapp.exception.ResourceNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
 
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
+import javax.jms.TextMessage;
+import java.beans.FeatureDescriptor;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
-public class EmployeeService{
-        @Autowired
-        EmployeeDao employeeDao;
+public class EmployeeService {
 
-        public int save(Employee employee){
-                return employeeDao.save(employee);
-        }
+    @Autowired
+    EmployeeRepository employeeRepository;
 
-        public int update(Employee employee) {
-                return employeeDao.update(employee);
-        }
+    @Autowired
+    JmsTemplate jmsTemplate;
 
-        public Employee findById(Long employeeId){
-                return employeeDao.findById(employeeId);
-        }
+    public Employee save(Employee employee) {
+        return employeeRepository.save(employee);
+    }
 
-        public int deleteById(Long employeeId){
-                return employeeDao.deleteById(employeeId);
-        }
+    public Employee findById(Long id) {
+        return employeeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(id + " not found."));
+    }
 
-        public List<Employee> findAll(){
-                return employeeDao.findAll();
-        }
+    public void deleteById(Long id) {
+        employeeRepository.deleteById(id);
+    }
+
+    public Employee update(Employee employee) {
+        Employee _employee = employeeRepository
+                .findById(employee.getEmployeeId())
+                .orElseThrow(() -> new ResourceNotFoundException(employee.getEmployeeId() + " not found."));
+
+        // Generating array of null properties of employee object
+        BeanWrapper wrappedEmployee = new BeanWrapperImpl(employee);
+        String[] nullFields = Stream.of(wrappedEmployee.getPropertyDescriptors())
+                .map(FeatureDescriptor::getName)
+                .filter(propertyName -> wrappedEmployee.getPropertyValue(propertyName) == null)
+                .toArray(String[]::new);
+
+        BeanUtils.copyProperties(employee, _employee, nullFields);
+        return employeeRepository.save(_employee);
+    }
+
+    public List<Employee> findEmployees(String firstName, String lastName) {
+
+        jmsTemplate.send("employee.queue", new MessageCreator() {
+            @Override
+            public Message createMessage(Session session) throws JMSException {
+                TextMessage textMessage = session.createTextMessage();
+                textMessage.setText("Hello from Employee Service!");
+                return textMessage;
+            }
+        });
+
+        return employeeRepository.findByFirstNameContainsAndLastNameContains(firstName, lastName);
+    }
 }

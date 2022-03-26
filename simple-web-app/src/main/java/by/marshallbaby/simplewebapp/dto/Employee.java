@@ -1,30 +1,56 @@
 package by.marshallbaby.simplewebapp.dto;
 
+import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
+import io.micrometer.core.lang.Nullable;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+
+import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Null;
+
+@Entity
+// TODO: уточнить про Enum Cast
+@TypeDef(
+        name = "pgsql_enum",
+        typeClass = PostgreSQLEnumType.class
+)
+@DynamicUpdate
 public class Employee {
 
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long employeeId;
     private String firstName;
     private String lastName;
     private Integer departmentId;
     private String jobTitle;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "gender")
+    @Type(type = "pgsql_enum")
     private Gender gender;
 
-    public Employee(){
 
-    };
+    @Min(value = 18, message = "Age must be 18+")
+    private Integer age;
+
+    public Employee(){}
 
     public Employee(Long employeeId,
                     String firstName,
                     String lastName,
                     Integer departmentId,
                     String jobTitle,
-                    Gender gender){
+                    Gender gender,
+                    Integer age){
         this.employeeId = employeeId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.departmentId = departmentId;
         this.jobTitle = jobTitle;
         this.gender = gender;
+        this.age = age;
     }
 
     public Employee(
@@ -32,12 +58,14 @@ public class Employee {
                     String lastName,
                     Integer departmentId,
                     String jobTitle,
-                    Gender gender){
+                    Gender gender,
+                    Integer age){
         this.firstName = firstName;
         this.lastName = lastName;
         this.departmentId = departmentId;
         this.jobTitle = jobTitle;
         this.gender = gender;
+        this.age = age;
     }
 
     public void setEmployeeId(Long employeeId) {
@@ -86,5 +114,26 @@ public class Employee {
 
     public Gender getGender() {
         return gender;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "employeeId=" + employeeId +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", departmentId=" + departmentId +
+                ", jobTitle='" + jobTitle + '\'' +
+                ", gender=" + gender +
+                ", age=" + age +
+                '}';
     }
 }
