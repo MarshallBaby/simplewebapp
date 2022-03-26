@@ -10,15 +10,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
-
-import javax.validation.ConstraintViolationException;
 import java.util.Date;
 
 @RestControllerAdvice
 public class ControllerExceptionHandler {
 
-
-    private Logger logger = LoggerFactory.getLogger("by.marshallbaby.log4j2demo");
+    private Logger logger = LoggerFactory.getLogger(ControllerExceptionHandler.class);
 
     @ExceptionHandler({ResourceNotFoundException.class, EmptyResultDataAccessException.class})
     @ResponseStatus(value = HttpStatus.NOT_FOUND)

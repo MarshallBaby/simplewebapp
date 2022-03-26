@@ -6,13 +6,13 @@ info:
     url: https://github.com/MarshallBaby
   version: 1.0.0
 servers:
-  - url: http://127.0.0.1:8080
+  - url: http://0.0.0.0:8080
     description: Generated server url
 paths:
   /api/employees:
     get:
       tags:
-        - employee-controller
+        - Employee Controller
       operationId: findEmployees
       parameters:
         - name: first-name
@@ -56,7 +56,7 @@ paths:
                 $ref: '#/components/schemas/ErrorMessage'
     put:
       tags:
-        - employee-controller
+        - Employee Controller
       operationId: updateEmployee
       requestBody:
         content:
@@ -91,7 +91,7 @@ paths:
                 $ref: '#/components/schemas/ErrorMessage'
     post:
       tags:
-        - employee-controller
+        - Employee Controller
       operationId: saveEmployee
       requestBody:
         content:
@@ -127,7 +127,7 @@ paths:
   /api/employees/{id}:
     get:
       tags:
-        - employee-controller
+        - Employee Controller
       operationId: findEmployeeById
       parameters:
         - name: id
@@ -163,7 +163,7 @@ paths:
                 $ref: '#/components/schemas/ErrorMessage'
     delete:
       tags:
-        - employee-controller
+        - Employee Controller
       operationId: deleteEmployeeById
       parameters:
         - name: id

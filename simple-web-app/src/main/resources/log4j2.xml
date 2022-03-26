@@ -17,17 +17,13 @@
         </File>
     </Appenders>
     <Loggers>
-        <Logger name="by.marshallbaby.log4j2demo" level="warn" additivity="false">
-            <AppenderRef ref="ConsoleAppender"/>
-            <AppenderRef ref="AppLogAppender"/>
-        </Logger>
 
         <Logger name="by.marshallbaby.jms" level="info" additivity="false">
             <AppenderRef ref="ConsoleAppender"/>
             <AppenderRef ref="JmsLogAppender"/>
         </Logger>
 
-        <Root level="debug">
+        <Root level="info">
             <AppenderRef ref="ConsoleAppender"/>
         </Root>
     </Loggers>
