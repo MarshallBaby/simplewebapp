@@ -17,7 +17,7 @@ Removed garbage-code from *findEmployee* controller. LIKE-based custom repositor
 Now the updateEmployee method may not receive the full Employee object as the request body, but only those fields that will be edited as a result.
 
 ##### application.properties is replaced with application.yml
-IMHO it feels much clean :)
+IMHO it feels much cleaner :)
 
 ##### pom.xml cleanup
 Spring-JDBC dependency is removed.
