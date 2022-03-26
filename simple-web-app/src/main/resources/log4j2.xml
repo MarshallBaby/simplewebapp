@@ -27,7 +27,7 @@
             <AppenderRef ref="JmsLogAppender"/>
         </Logger>
 
-        <Root level="info">
+        <Root level="debug">
             <AppenderRef ref="ConsoleAppender"/>
         </Root>
     </Loggers>

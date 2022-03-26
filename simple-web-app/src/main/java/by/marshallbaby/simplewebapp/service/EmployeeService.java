@@ -24,8 +24,6 @@ import java.util.stream.Stream;
 @Service
 public class EmployeeService {
 
-    private final Logger logger = LoggerFactory.getLogger("by.marshallbaby.log4j2demo");
-
     @Autowired
     EmployeeRepository employeeRepository;
 
@@ -63,22 +61,14 @@ public class EmployeeService {
 
     public List<Employee> findEmployees(String firstName, String lastName) {
 
-        // Logger test
-        // Logger lvl switching via Actuator API:
-        // https://ibb.co/fCzvZbX
-
-        logger.info("Hello from EmployeeService!");
-        logger.error("Hello from EmployeeService!(Error)");
-
         jmsTemplate.send("employee.queue", new MessageCreator() {
             @Override
             public Message createMessage(Session session) throws JMSException {
                 TextMessage textMessage = session.createTextMessage();
-                textMessage.setText("Hello from EmployeeService!");
+                textMessage.setText("Hello from Employee Service!");
                 return textMessage;
             }
         });
-
 
         return employeeRepository.findByFirstNameContainsAndLastNameContains(firstName, lastName);
     }

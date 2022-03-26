@@ -12,7 +12,7 @@ spring:
     change-log: emoloyeedb/changelog/employeedb.changelog-master.yml
   mvc:
     pathmatch:
-      matching-strategy: ANT_PATH_MATCHER
+      matching-strategy: ant_path_matcher
   activemq:
     broker-url: tcp://192.168.1.120:61616
     user: admin
@@ -25,3 +25,6 @@ management:
       exposure:
         include:
           - loggers
+springdoc:
+  swagger-ui:
+    url: /openapi.yaml
