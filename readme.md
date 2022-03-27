@@ -38,3 +38,6 @@ Swagger is applied. Auto-generation is disabled to keep code clean. OpenAPI yaml
 
 ##### Liquibase
 Liquibase is applied.
+
+##### Docker
+The project has been dockerised.
