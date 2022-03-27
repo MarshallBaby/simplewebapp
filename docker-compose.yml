@@ -1,0 +1,7 @@
+version: '2'
+
+services:
+  simplewebapp:
+    build: ./simple-web-app
+    ports:
+      - 8080:8080
