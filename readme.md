@@ -1,11 +1,11 @@
 # Simple Web App
 
 ### UI Adress
-0.0.0.0:8080
+0.0.0.0:80
 ### REST API Swagger Docs
 0.0.0.0:8080/swagger-ui.html
 
-### (26.03.22) Change log:
+### (28.03.22) Change log:
 #### Fixed:
 ##### *Optional* replaced with *Employee* object in controllers return type.
 ResourceNotFoundException now thrown explicitly from service layer by checking Optional object returned from repository layer.
@@ -21,6 +21,9 @@ IMHO it feels much cleaner :)
 
 ##### pom.xml cleanup
 Spring-JDBC dependency is removed.
+
+##### UI Split
+UI is moved to a separate service.
 
 #### New:
 
