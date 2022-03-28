@@ -20,13 +20,10 @@ public class WebPageController {
     @GetMapping("/")
     public String index(){
 
-        jmsTemplate.send("employee.queue", new MessageCreator() {
-            @Override
-            public Message createMessage(Session session) throws JMSException {
-                TextMessage textMessage = session.createTextMessage();
-                textMessage.setText("new visit on index.html");
-                return textMessage;
-            }
+        jmsTemplate.send("employee.queue", session -> {
+            TextMessage textMessage = session.createTextMessage();
+            textMessage.setText("new visit on index.html");
+            return textMessage;
         });
 
         return "index";
