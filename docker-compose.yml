@@ -5,3 +5,7 @@ services:
     build: ./simple-web-app
     ports:
       - 8080:8080
+  simplewebapp-ui:
+    build: ./simple-web-app-ui
+    ports:
+      - 80:8080
