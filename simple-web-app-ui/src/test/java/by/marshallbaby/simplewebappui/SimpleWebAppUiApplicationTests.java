@@ -1,4 +1,4 @@
-package com.example.simplewebappui;
+package by.marshallbaby.simplewebappui;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
