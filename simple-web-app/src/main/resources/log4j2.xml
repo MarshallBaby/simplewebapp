@@ -18,9 +18,13 @@
     </Appenders>
     <Loggers>
 
-        <Logger name="by.marshallbaby.jms" level="info" additivity="false">
+        <Logger name="by.marshallbaby.jms" level="info">
             <AppenderRef ref="ConsoleAppender"/>
             <AppenderRef ref="JmsLogAppender"/>
+        </Logger>
+
+        <Logger name="by.marshallbaby.exception-handling" level="warn">
+            <AppenderRef ref="AppLogAppender"/>
         </Logger>
 
         <Root level="info">

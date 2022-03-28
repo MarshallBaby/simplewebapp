@@ -2,6 +2,7 @@ package by.marshallbaby.simplewebapp.service;
 
 import by.marshallbaby.simplewebapp.dao.EmployeeRepository;
 import by.marshallbaby.simplewebapp.dto.Employee;
+import by.marshallbaby.simplewebapp.exception.IdParameterMismatchException;
 import by.marshallbaby.simplewebapp.exception.ResourceNotFoundException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -34,27 +36,24 @@ public class EmployeeService {
 
     public Employee findById(Long id) {
         return employeeRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(id + " not found."));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Not found employee by ID : %d", id)));
     }
 
     public void deleteById(Long id) {
         employeeRepository.deleteById(id);
     }
 
-    public Employee update(Employee employee) {
-        Employee _employee = employeeRepository
-                .findById(employee.getEmployeeId())
-                .orElseThrow(() -> new ResourceNotFoundException(employee.getEmployeeId() + " not found."));
+    public Employee update(Employee employee, Long id) {
 
-        // Generating array of null properties of employee object
-        BeanWrapper wrappedEmployee = new BeanWrapperImpl(employee);
-        String[] nullFields = Stream.of(wrappedEmployee.getPropertyDescriptors())
-                .map(FeatureDescriptor::getName)
-                .filter(propertyName -> wrappedEmployee.getPropertyValue(propertyName) == null)
-                .toArray(String[]::new);
+        if(!id.equals(employee.getEmployeeId())){
+            throw new IdParameterMismatchException();
+        }
 
-        BeanUtils.copyProperties(employee, _employee, nullFields);
-        return employeeRepository.save(_employee);
+        employeeRepository
+                .findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Not found employee by ID: %d while update", id)));
+
+        return employeeRepository.save(employee);
     }
 
     public List<Employee> findEmployees(String firstName, String lastName) {
