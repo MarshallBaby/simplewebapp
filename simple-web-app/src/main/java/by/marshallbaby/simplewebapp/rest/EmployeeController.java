@@ -3,8 +3,6 @@ package by.marshallbaby.simplewebapp.rest;
 import by.marshallbaby.simplewebapp.dto.Employee;
 import by.marshallbaby.simplewebapp.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
