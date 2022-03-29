@@ -1,17 +1,15 @@
 package by.marshallbaby.simplewebapp.dto;
 
+import by.marshallbaby.simplewebapp.validation.MinAge;
 import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
-import io.micrometer.core.lang.Nullable;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Null;
+import java.time.LocalDate;
 
 @Entity
-// TODO: уточнить про Enum Cast
 @TypeDef(
         name = "pgsql_enum",
         typeClass = PostgreSQLEnumType.class
@@ -32,8 +30,8 @@ public class Employee {
     private Gender gender;
 
 
-    @Min(value = 18, message = "Age must be 18+")
-    private Integer age;
+    @MinAge(min = 18)
+    private LocalDate dateOfBirth;
 
     public Employee(){}
 
@@ -43,14 +41,14 @@ public class Employee {
                     Integer departmentId,
                     String jobTitle,
                     Gender gender,
-                    Integer age){
+                    LocalDate dateOfBirth){
         this.employeeId = employeeId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.departmentId = departmentId;
         this.jobTitle = jobTitle;
         this.gender = gender;
-        this.age = age;
+        this.dateOfBirth = dateOfBirth;
     }
 
     public Employee(
@@ -59,13 +57,13 @@ public class Employee {
                     Integer departmentId,
                     String jobTitle,
                     Gender gender,
-                    Integer age){
+                    LocalDate dateOfBirth){
         this.firstName = firstName;
         this.lastName = lastName;
         this.departmentId = departmentId;
         this.jobTitle = jobTitle;
         this.gender = gender;
-        this.age = age;
+        this.dateOfBirth = dateOfBirth;
     }
 
     public void setEmployeeId(Long employeeId) {
@@ -116,12 +114,12 @@ public class Employee {
         return gender;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setDateOfBirth(LocalDate age) {
+        this.dateOfBirth = age;
     }
 
-    public Integer getAge() {
-        return age;
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
     }
 
     @Override
@@ -133,7 +131,7 @@ public class Employee {
                 ", departmentId=" + departmentId +
                 ", jobTitle='" + jobTitle + '\'' +
                 ", gender=" + gender +
-                ", age=" + age +
+                ", dateOfBirth=" + dateOfBirth +
                 '}';
     }
 }
