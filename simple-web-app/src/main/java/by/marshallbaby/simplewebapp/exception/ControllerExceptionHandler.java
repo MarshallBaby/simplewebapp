@@ -55,8 +55,7 @@ public class ControllerExceptionHandler {
         return new ErrorMessage(
                 HttpStatus.BAD_REQUEST.value(),
                 new Date(),
-                //e.getMessage(),
-                "Invalid data.",
+                e.getMessage(),
                 request.getDescription(false)
         );
     }
