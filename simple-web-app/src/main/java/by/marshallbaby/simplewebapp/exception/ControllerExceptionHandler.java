@@ -16,18 +16,18 @@ import java.util.Date;
 @RestControllerAdvice
 public class ControllerExceptionHandler {
 
-    private Logger logger = LoggerFactory.getLogger("by.marshallbaby.exception-handling");
+    private final Logger logger = LoggerFactory.getLogger("by.marshallbaby.exception-handling");
 
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public ErrorMessage resourceNotFoundException(Exception e, WebRequest request) {
 
-        logger.error(String.format("Resource not found. %s", e.getMessage()));
+        logger.error("Not Found", e);
 
         return new ErrorMessage(
                 HttpStatus.NOT_FOUND.value(),
                 new Date(),
-                e.getMessage(),
+                "Not found",
                 request.getDescription(false)
         );
     }
@@ -41,21 +41,27 @@ public class ControllerExceptionHandler {
         return new ErrorMessage(
                 HttpStatus.BAD_REQUEST.value(),
                 new Date(),
-                e.getMessage(),
+                "Invalid Request Body.",
                 request.getDescription(false)
         );
     }
 
-    @ExceptionHandler({MethodArgumentNotValidException.class, IdParameterMismatchException.class, ConstraintViolationException.class})
+    @ExceptionHandler({
+            //
+            MethodArgumentNotValidException.class,
+            //
+            IdParameterMismatchException.class,
+            //
+            ConstraintViolationException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ErrorMessage validationException(Exception e, WebRequest request) {
 
-        logger.error(String.format("Got invalid request body. %s", e.getMessage()));
+        logger.error("Got Invalid Request Body.", e);
 
         return new ErrorMessage(
                 HttpStatus.BAD_REQUEST.value(),
                 new Date(),
-                e.getMessage(),
+                "Invalid Request Body Data.",
                 request.getDescription(false)
         );
     }

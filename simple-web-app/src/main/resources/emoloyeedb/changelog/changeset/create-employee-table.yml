@@ -15,6 +15,7 @@ databaseChangeLog:
               - column:
                   name: first_name
                   type: varchar(64)
+
               - column:
                   name: last_name
                   type: varchar(64)

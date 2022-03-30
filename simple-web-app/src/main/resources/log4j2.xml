@@ -15,6 +15,9 @@
         <File name="JmsLogAppender" fileName="logs/jms.log">
             <PatternLayout pattern="${LOG_PATTERN}"/>
         </File>
+        <File name="ExceptionHandlingLog" fileName="logs/exceptions.log">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </File>
     </Appenders>
     <Loggers>
 
@@ -24,7 +27,7 @@
         </Logger>
 
         <Logger name="by.marshallbaby.exception-handling" level="warn">
-            <AppenderRef ref="AppLogAppender"/>
+            <AppenderRef ref="ExceptionHandlingLog"/>
         </Logger>
 
         <Root level="info">

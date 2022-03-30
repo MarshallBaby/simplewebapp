@@ -5,3 +5,5 @@ databaseChangeLog:
       file: emoloyeedb/changelog/changeset/employee-age-column-type-int-to-data-edit.xml
   - include:
       file: emoloyeedb/changelog/changeset/employee-age-column-rename.xml
+  - include:
+      file: emoloyeedb/changelog/changeset/employee-make-fileds-not-null.xml

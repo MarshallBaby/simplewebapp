@@ -5,8 +5,12 @@ import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
@@ -14,23 +18,36 @@ import java.time.LocalDate;
         name = "pgsql_enum",
         typeClass = PostgreSQLEnumType.class
 )
-@DynamicUpdate
 public class Employee {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long employeeId;
+
+    @NotNull
+    @Size(min = 3, max = 32)
     private String firstName;
+
+    @NotNull
+    @Size(min = 3, max = 32)
     private String lastName;
+
+    @Nullable
+    @Min(1)
     private Integer departmentId;
+
+    @Nullable
+    @Size(min = 2, max = 255)
     private String jobTitle;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "gender")
     @Type(type = "pgsql_enum")
+    @NotNull
     private Gender gender;
 
-
     @MinAge(min = 18)
+    @NotNull
     private LocalDate dateOfBirth;
 
     public Employee(){}

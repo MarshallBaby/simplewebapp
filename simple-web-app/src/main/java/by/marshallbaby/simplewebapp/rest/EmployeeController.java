@@ -2,7 +2,7 @@ package by.marshallbaby.simplewebapp.rest;
 
 import by.marshallbaby.simplewebapp.dto.Employee;
 import by.marshallbaby.simplewebapp.service.EmployeeService;
-import by.marshallbaby.simplewebapp.validation.StringLenZeroOrMin;
+import by.marshallbaby.simplewebapp.validation.StringLenZeroOrMinMax;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -12,8 +12,6 @@ import javax.validation.constraints.Min;
 import java.util.List;
 
 @RestController
-//@Component
-//@ResponseBody
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api/employees")
 @Validated
@@ -32,10 +30,10 @@ public class EmployeeController {
     @GetMapping("")
     public List<Employee> findEmployees(
             @RequestParam(value = "first-name", required = false, defaultValue = "")
-                    @StringLenZeroOrMin(min = 3, message = "first-name length must be 0 or greater then 2")
+                    @StringLenZeroOrMinMax(min = 3, max = 32)
                     String firstName,
             @RequestParam(value = "last-name", required = false, defaultValue = "")
-                    @StringLenZeroOrMin(min = 3, message = "last-name length must be 0 or greater then 2")
+                    @StringLenZeroOrMinMax(min = 3, max = 32)
                     String lastName
     ) {
         return employeeService.findEmployees(firstName, lastName);
