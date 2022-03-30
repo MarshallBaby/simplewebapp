@@ -16,7 +16,7 @@ import java.util.Date;
 @RestControllerAdvice
 public class ControllerExceptionHandler {
 
-    private final Logger logger = LoggerFactory.getLogger("by.marshallbaby.exception-handling");
+    private final Logger logger = LoggerFactory.getLogger("by.marshallbaby.controller-advice-logger");
 
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)

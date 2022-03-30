@@ -15,19 +15,18 @@
         <File name="JmsLogAppender" fileName="logs/jms.log">
             <PatternLayout pattern="${LOG_PATTERN}"/>
         </File>
-        <File name="ExceptionHandlingLog" fileName="logs/exceptions.log">
+        <File name="ControllerAdviceLog" fileName="logs/controller_advice.log">
             <PatternLayout pattern="${LOG_PATTERN}"/>
         </File>
     </Appenders>
     <Loggers>
 
         <Logger name="by.marshallbaby.jms" level="info">
-            <AppenderRef ref="ConsoleAppender"/>
             <AppenderRef ref="JmsLogAppender"/>
         </Logger>
 
-        <Logger name="by.marshallbaby.exception-handling" level="warn">
-            <AppenderRef ref="ExceptionHandlingLog"/>
+        <Logger name="by.marshallbaby.controller-advice-logger" level="error" additivity="false">
+            <AppenderRef ref="ControllerAdviceLog"/>
         </Logger>
 
         <Root level="info">
