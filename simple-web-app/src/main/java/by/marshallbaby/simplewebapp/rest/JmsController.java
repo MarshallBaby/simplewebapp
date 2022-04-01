@@ -15,9 +15,9 @@ public class JmsController {
     @Autowired
     JmsService jmsService;
 
-    @PostMapping("/sync")
-    public Employee saveEmployee(@Valid @RequestBody Employee employee){
+    @PostMapping("")
+    public String saveEmployee(@Valid @RequestBody Employee employee){
         jmsService.produce(employee);
-        return employee;
+        return "OK";
     }
 }

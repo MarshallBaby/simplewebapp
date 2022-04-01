@@ -2,22 +2,17 @@ package by.marshallbaby.simplewebapp.service;
 
 import by.marshallbaby.simplewebapp.dao.EmployeeRepository;
 import by.marshallbaby.simplewebapp.dto.Employee;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.jms.core.MessageCreator;
-import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.stereotype.Service;
-
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.Session;
-import javax.jms.TextMessage;
 
 @Service
 public class JmsService {
+
+    private final Logger logger = LoggerFactory.getLogger("by.marshallbaby.jms");
 
     @Autowired
     EmployeeRepository employeeRepository;
@@ -25,10 +20,16 @@ public class JmsService {
     @Autowired
     JmsTemplate jmsTemplate;
 
-    @Autowired
-    ObjectMapper objectMapper;
-
     public void produce(Employee employee) {
         jmsTemplate.convertAndSend("employee.queue", employee);
+    }
+
+    @JmsListener(destination = "employee.queue")
+    public void consume(Employee message){
+
+        logger.info("JMS message received: " + message);
+        Employee result = employeeRepository.save(message);
+        logger.info("Saved: " + result);
+
     }
 }
