@@ -14,6 +14,7 @@ import org.springframework.lang.Nullable;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
@@ -30,10 +31,12 @@ public class Employee {
 
     @NotNull
     @Size(min = 3, max = 32)
+    @Pattern(regexp = "^[\\p{L} .'-]+$")
     private String firstName;
 
     @NotNull
     @Size(min = 3, max = 32)
+    @Pattern(regexp = "^[\\p{L} .'-]+$")
     private String lastName;
 
     @Nullable
