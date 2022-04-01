@@ -56,7 +56,7 @@ public class ControllerExceptionHandler {
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ErrorMessage validationException(Exception e, WebRequest request) {
 
-        logger.error("Got Invalid Request Body.", e);
+        logger.error("Got Invalid Request Body Data.", e);
 
         return new ErrorMessage(
                 HttpStatus.BAD_REQUEST.value(),

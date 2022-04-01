@@ -1,6 +1,10 @@
 package by.marshallbaby.simplewebapp.dto;
 
 import by.marshallbaby.simplewebapp.validation.MinAge;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type;
@@ -46,6 +50,8 @@ public class Employee {
     @NotNull
     private Gender gender;
 
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     @MinAge(min = 18)
     @NotNull
     private LocalDate dateOfBirth;
