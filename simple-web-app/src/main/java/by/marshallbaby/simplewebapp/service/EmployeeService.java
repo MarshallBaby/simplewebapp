@@ -10,6 +10,7 @@ import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
+import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
@@ -57,16 +58,6 @@ public class EmployeeService {
     }
 
     public List<Employee> findEmployees(String firstName, String lastName) {
-
-        jmsTemplate.send("employee.queue", new MessageCreator() {
-            @Override
-            public Message createMessage(Session session) throws JMSException {
-                TextMessage textMessage = session.createTextMessage();
-                textMessage.setText("Hello from Employee Service!");
-                return textMessage;
-            }
-        });
-
         return employeeRepository.findByFirstNameContainsAndLastNameContains(firstName, lastName);
     }
 }

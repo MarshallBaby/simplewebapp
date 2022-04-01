@@ -1,6 +1,10 @@
 package by.marshallbaby.simplewebapp.dto;
 
 import by.marshallbaby.simplewebapp.validation.MinAge;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.vladmihalcea.hibernate.type.basic.PostgreSQLEnumType;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Type;
@@ -10,6 +14,7 @@ import org.springframework.lang.Nullable;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
@@ -26,10 +31,12 @@ public class Employee {
 
     @NotNull
     @Size(min = 3, max = 32)
+    @Pattern(regexp = "^[\\p{L} .'-]+$")
     private String firstName;
 
     @NotNull
     @Size(min = 3, max = 32)
+    @Pattern(regexp = "^[\\p{L} .'-]+$")
     private String lastName;
 
     @Nullable
@@ -46,6 +53,8 @@ public class Employee {
     @NotNull
     private Gender gender;
 
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     @MinAge(min = 18)
     @NotNull
     private LocalDate dateOfBirth;

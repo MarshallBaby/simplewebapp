@@ -4,6 +4,9 @@
         <Property name="LOG_PATTERN">
             %d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${hostName} --- [%15.15t] %-40.40c{1.} : %m%n%ex
         </Property>
+        <Property name="REQUEST_PATTERN">
+            %d{yyyy-MM-dd HH:mm:ss.SSS} %m%n
+        </Property>
     </Properties>
     <Appenders>
         <Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true">
@@ -18,6 +21,9 @@
         <File name="ControllerAdviceLog" fileName="logs/controller_advice.log">
             <PatternLayout pattern="${LOG_PATTERN}"/>
         </File>
+        <File name="RequestResponseLog" fileName="logs/request_response.log">
+            <PatternLayout pattern="${REQUEST_PATTERN}"/>
+        </File>
     </Appenders>
     <Loggers>
 
@@ -27,6 +33,10 @@
 
         <Logger name="by.marshallbaby.controller-advice-logger" level="error" additivity="false">
             <AppenderRef ref="ControllerAdviceLog"/>
+        </Logger>
+
+        <Logger name="by.marshallbaby.request-logger" level="info" additivity="false">
+            <AppenderRef ref="RequestResponseLog"/>
         </Logger>
 
         <Root level="info">
