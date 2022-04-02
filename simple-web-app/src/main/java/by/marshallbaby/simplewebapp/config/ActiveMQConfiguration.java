@@ -15,11 +15,6 @@ import javax.jms.Queue;
 public class ActiveMQConfiguration {
 
     @Bean
-    public Queue employeeQueue(){
-        return new ActiveMQQueue("employee.queue");
-    }
-
-    @Bean
     public MessageConverter jacksonJmsMessageConverter() {
         MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
         converter.setTargetType(MessageType.TEXT);
