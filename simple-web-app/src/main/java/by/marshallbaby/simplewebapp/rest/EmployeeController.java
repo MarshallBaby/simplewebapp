@@ -30,11 +30,11 @@ public class EmployeeController {
     public List<Employee> findEmployees(
             @RequestParam(value = "first-name", required = false, defaultValue = "")
                     @Size(max = 32)
-                    @Pattern(regexp = "^[\\p{L} .'-]+$")
+                    //@Pattern(regexp = "^[\\p{L} .'-]+$")
                     String firstName,
             @RequestParam(value = "last-name", required = false, defaultValue = "")
                     @Size(max = 32)
-                    @Pattern(regexp = "^[\\p{L} .'-]+$")
+                    //@Pattern(regexp = "^[\\p{L} .'-]+$")
                     String lastName
     ) {
         return employeeService.findEmployees(firstName, lastName);

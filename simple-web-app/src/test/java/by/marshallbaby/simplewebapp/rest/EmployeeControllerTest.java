@@ -25,59 +25,59 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(EmployeeController.class)
 class EmployeeControllerTest {
 
-    private static final MediaType APPLICATION_JSON_UTF8 = new MediaType(
-            MediaType.APPLICATION_JSON.getType(),
-            MediaType.APPLICATION_JSON.getSubtype(),
-            StandardCharsets.UTF_8);
-
-    public ObjectWriter ow = null;
-    public ObjectMapper mapper = null;
-
-    @BeforeEach
-    public void setup(){
-        mapper = new ObjectMapper();
-        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
-        ow = mapper.writer().withDefaultPrettyPrinter();
-    }
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @MockBean
-    private EmployeeService employeeService;
-
-    @Test
-    void saveEmployee() throws Exception{
-        when(employeeService.save(any(Employee.class))).thenReturn(any(Employee.class));
-
-        mockMvc.perform(post("/api/employees").contentType(APPLICATION_JSON_UTF8)
-                .content(ow.writeValueAsString(new Employee())))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    void saveEmployeeFail() throws Exception{
-        when(employeeService.save(any(Employee.class))).thenThrow(new RuntimeException());
-
-        mockMvc.perform(post("/api/employees").contentType(APPLICATION_JSON_UTF8)
-                        .content(ow.writeValueAsString(new Employee())))
-                .andExpect(status().isInternalServerError());
-    }
-
-    @Test
-    void findEmployee() throws Exception{
-        when(employeeService.findEmployees(anyString(), anyString())).thenReturn(new ArrayList<Employee>());
-
-        mockMvc.perform(get("/api/employees"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    void findEmployeeFail() throws  Exception{
-        when(employeeService.findEmployees(anyString(), anyString())).thenThrow(new RuntimeException());
-
-        mockMvc.perform(get("/api/employees"))
-                .andExpect(status().isInternalServerError());
-    }
+//    private static final MediaType APPLICATION_JSON_UTF8 = new MediaType(
+//            MediaType.APPLICATION_JSON.getType(),
+//            MediaType.APPLICATION_JSON.getSubtype(),
+//            StandardCharsets.UTF_8);
+//
+//    public ObjectWriter ow = null;
+//    public ObjectMapper mapper = null;
+//
+//    @BeforeEach
+//    public void setup(){
+//        mapper = new ObjectMapper();
+//        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+//        ow = mapper.writer().withDefaultPrettyPrinter();
+//    }
+//
+//    @Autowired
+//    private MockMvc mockMvc;
+//
+//    @MockBean
+//    private EmployeeService employeeService;
+//
+//    @Test
+//    void saveEmployee() throws Exception{
+//        when(employeeService.save(any(Employee.class))).thenReturn(any(Employee.class));
+//
+//        mockMvc.perform(post("/api/employees").contentType(APPLICATION_JSON_UTF8)
+//                .content(ow.writeValueAsString(new Employee())))
+//                .andExpect(status().isOk());
+//    }
+//
+//    @Test
+//    void saveEmployeeFail() throws Exception{
+//        when(employeeService.save(any(Employee.class))).thenThrow(new RuntimeException());
+//
+//        mockMvc.perform(post("/api/employees").contentType(APPLICATION_JSON_UTF8)
+//                        .content(ow.writeValueAsString(new Employee())))
+//                .andExpect(status().isInternalServerError());
+//    }
+//
+//    @Test
+//    void findEmployee() throws Exception{
+//        when(employeeService.findEmployees(anyString(), anyString())).thenReturn(new ArrayList<Employee>());
+//
+//        mockMvc.perform(get("/api/employees"))
+//                .andExpect(status().isOk());
+//    }
+//
+//    @Test
+//    void findEmployeeFail() throws  Exception{
+//        when(employeeService.findEmployees(anyString(), anyString())).thenThrow(new RuntimeException());
+//
+//        mockMvc.perform(get("/api/employees"))
+//                .andExpect(status().isInternalServerError());
+//    }
 
 }

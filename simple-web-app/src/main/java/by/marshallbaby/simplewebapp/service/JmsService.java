@@ -2,12 +2,7 @@ package by.marshallbaby.simplewebapp.service;
 
 import by.marshallbaby.simplewebapp.dao.EmployeeRepository;
 import by.marshallbaby.simplewebapp.dto.Employee;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
@@ -18,8 +13,6 @@ import javax.jms.*;
 
 @Service
 public class JmsService {
-
-    private final Logger logger = LoggerFactory.getLogger("by.marshallbaby.jms");
 
     @Autowired
     EmployeeRepository employeeRepository;
