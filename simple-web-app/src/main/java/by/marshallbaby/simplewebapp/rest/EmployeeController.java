@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.List;
 
@@ -30,30 +29,28 @@ public class EmployeeController {
     public List<Employee> findEmployees(
             @RequestParam(value = "first-name", required = false, defaultValue = "")
                     @Size(max = 32)
-                    //@Pattern(regexp = "^[\\p{L} .'-]+$")
                     String firstName,
             @RequestParam(value = "last-name", required = false, defaultValue = "")
                     @Size(max = 32)
-                    //@Pattern(regexp = "^[\\p{L} .'-]+$")
                     String lastName
     ) {
         return employeeService.findEmployees(firstName, lastName);
     }
 
     @GetMapping("/{id}")
-    public Employee findEmployeeById(@PathVariable("id") @Min(value = 1) Long id) {
+    public Employee findEmployeeById(@PathVariable("id") @Min(1) Long id) {
         return employeeService.findById(id);
     }
 
     @DeleteMapping("/{id}")
-    public String deleteEmployeeById(@PathVariable("id") @Min(value = 1) Long id) {
+    public String deleteEmployeeById(@PathVariable("id") @Min(1) Long id) {
         employeeService.deleteById(id);
         return "OK";
     }
 
     @PutMapping("/{id}")
     public Employee updateEmployee(@Valid @RequestBody Employee employee,
-                                   @PathVariable("id") @Min(value = 1) Long id) {
+                                   @PathVariable("id") @Min(1) Long id) {
         return employeeService.update(employee, id);
     }
 }
