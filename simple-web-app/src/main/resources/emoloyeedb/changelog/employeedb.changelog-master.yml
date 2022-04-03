@@ -1,5 +1,7 @@
 databaseChangeLog:
   - include:
+      file: emoloyeedb/changelog/changeset/enum-gender.xml
+  - include:
       file: emoloyeedb/changelog/changeset/create-employee-table.yml
   - include:
       file: emoloyeedb/changelog/changeset/employee-age-column-type-int-to-data-edit.xml

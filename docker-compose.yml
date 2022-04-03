@@ -1,11 +1,31 @@
 version: '2'
 
 services:
+  postgres:
+    image: postgres:12.10
+    container_name: postgres-container
+    restart: unless-stopped
+    volumes:
+      - ./postgres/pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 32049
+      POSTGRES_DB: "employeedb"
+  activemq:
+    image: rmohr/activemq:5.15.9
+    container_name: activemq-container
+    restart: unless-stopped
   simplewebapp:
     build: ./simple-web-app
+    container_name: simplewebapp-container
+    restart: unless-stopped
     ports:
       - 8080:8080
+    volumes:
+      - ./simple-web-app/logs:/app/logs
   simplewebapp-ui:
     build: ./simple-web-app-ui
+    container_name: simplewebapp-ui-container
+    restart: unless-stopped
     ports:
       - 80:8080
