@@ -28,10 +28,10 @@ public class EmployeeController {
     @GetMapping("")
     public List<Employee> findEmployees(
             @RequestParam(value = "first-name", required = false, defaultValue = "")
-                    @Size(max = 32)
+            @Size(max = 32)
                     String firstName,
             @RequestParam(value = "last-name", required = false, defaultValue = "")
-                    @Size(max = 32)
+            @Size(max = 32)
                     String lastName
     ) {
         return employeeService.findEmployees(firstName, lastName);
