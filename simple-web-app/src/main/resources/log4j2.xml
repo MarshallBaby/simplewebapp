@@ -18,7 +18,7 @@
         <File name="JmsLogAppender" fileName="logs/jms.log">
             <PatternLayout pattern="${LOG_PATTERN}"/>
         </File>
-        <File name="ControllerAdviceLog" fileName="logs/controller_advice.log">
+        <File name="ControllerAdviceAppender" fileName="logs/controller_advice.log">
             <PatternLayout pattern="${LOG_PATTERN}"/>
         </File>
         <File name="RequestResponseLog" fileName="logs/request_response.log">
@@ -31,8 +31,8 @@
             <AppenderRef ref="JmsLogAppender"/>
         </Logger>
 
-        <Logger name="by.marshallbaby.controller-advice-logger" level="error" additivity="false">
-            <AppenderRef ref="ControllerAdviceLog"/>
+        <Logger name="by.marshallbaby.controller-advice-logger" level="info" additivity="false">
+            <AppenderRef ref="ControllerAdviceAppender"/>
         </Logger>
 
         <Logger name="by.marshallbaby.request-logger" level="info" additivity="false">
@@ -41,6 +41,7 @@
 
         <Root level="info">
             <AppenderRef ref="ConsoleAppender"/>
+            <AppenderRef ref="AppLogAppender" level="warn"/>
         </Root>
     </Loggers>
 </Configuration>

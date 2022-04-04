@@ -30,12 +30,12 @@ public class Employee {
     private Long employeeId;
 
     @NotNull
-    @Size(min = 3, max = 32)
+    @Size(min = 2, max = 32)
     @Pattern(regexp = "^[\\p{L} .'-]+$")
     private String firstName;
 
     @NotNull
-    @Size(min = 3, max = 32)
+    @Size(min = 2, max = 32)
     @Pattern(regexp = "^[\\p{L} .'-]+$")
     private String lastName;
 
