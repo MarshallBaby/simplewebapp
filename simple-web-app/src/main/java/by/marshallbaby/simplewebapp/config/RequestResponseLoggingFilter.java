@@ -14,6 +14,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.UUID;
 
 @Component
 public class RequestResponseLoggingFilter extends GenericFilterBean {
@@ -28,15 +29,19 @@ public class RequestResponseLoggingFilter extends GenericFilterBean {
 
         chain.doFilter(requestWrapper, responseWrapper);
 
+        UUID uuid = UUID.randomUUID();
+
         logger.info(
-                String.format("IN %s %s",
+                String.format("%s IN %s %s",
+                        uuid,
                         ((HttpServletRequest) request).getMethod(),
                         new String(requestWrapper.getContentAsByteArray(), requestWrapper.getCharacterEncoding())
                         )
         );
 
         logger.info(
-                String.format("OUT %s %s",
+                String.format("%s OUT %s %s",
+                        uuid,
                         ((HttpServletRequest) request).getMethod(),
                         new String(responseWrapper.getContentAsByteArray(), requestWrapper.getCharacterEncoding())
                         )
