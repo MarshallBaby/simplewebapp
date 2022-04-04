@@ -7,25 +7,23 @@ import org.springframework.web.filter.AbstractRequestLoggingFilter;
 
 import javax.servlet.http.HttpServletRequest;
 
-@Component
+//@Component
 public class RequestLoggingFilter extends AbstractRequestLoggingFilter {
 
     private final Logger logger = LoggerFactory.getLogger("by.marshallbaby.request-logger");
 
     RequestLoggingFilter(){
         setIncludeClientInfo(true);
-        setIncludeHeaders(true);
+        setIncludeHeaders(false);
         setIncludePayload(true);
         setIncludeQueryString(true);
         setAfterMessageSuffix("]");
-        setBeforeMessagePrefix("Request started => ");
-        setAfterMessagePrefix("Request ended => ");
-        setMaxPayloadLength(500);
+        setAfterMessagePrefix("IN ");
+        setMaxPayloadLength(10000);
     }
 
     @Override
     protected void beforeRequest(HttpServletRequest request, String message) {
-        logger.info(message);
     }
 
     @Override

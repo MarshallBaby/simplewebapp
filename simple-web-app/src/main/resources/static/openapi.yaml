@@ -207,6 +207,38 @@ paths:
             'application/json':
               schema:
                 $ref: '#/components/schemas/ErrorMessage'
+  /api/jms:
+    post:
+      tags:
+        - JMS Test API
+      summary: Create new employee record via JMS.
+      operationId: saveViaJms
+      requestBody:
+        description: (!) The "employeeId" field of the request body is ignored because of autogeneration of record Id.
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/Employee'
+        required: true
+      responses:
+        '200':
+          description: Returns the saved record.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '400':
+          description: Returns an error message on request data validation failure.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '500':
+          description: Returns an error message on internal server error.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
 components:
   schemas:
     ErrorMessage:
@@ -219,7 +251,6 @@ components:
           format: int32
         timestamp:
           description: Timestamp of error occurrence.
-          example: 2022-04-04T13:35:53.875+00:00
           type: string
           format: date-time
         message:
