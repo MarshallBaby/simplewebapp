@@ -1,35 +1,40 @@
 openapi: 3.0.1
 info:
-  title: Simple Web App API
+  title: Simple Web App API Docs
   contact:
     name: Alexey Yatsevich
     url: https://github.com/MarshallBaby
   version: 1.0.0
 servers:
   - url: http://0.0.0.0:8080
-    description: Generated server url
 paths:
   /api/employees:
     get:
       tags:
-        - Employee Controller
+        - Employee API
       operationId: findEmployees
+      summary: Get a collection of employees.
       parameters:
         - name: first-name
+          description: Allows to filter result collection by employee's first name.
           in: query
           required: false
           schema:
             type: string
+            maxLength: 32
             default: ''
+
         - name: last-name
+          description: Allows to filter result collection by employee's last name.
           in: query
           required: false
           schema:
             type: string
+            maxLength: 32
             default: ''
       responses:
         '200':
-          description: Returns result Employee entity
+          description: Returns a collection of employees as a result. Returns an empty array if no employee is recorded.
           content:
             'application/json':
               schema:
@@ -37,98 +42,99 @@ paths:
                 items:
                   $ref: '#/components/schemas/Employee'
         '400':
-          description: Bad Request
-          content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
-        '404':
-          description: Not Found
+          description: Returns an error message on query params validation failure.
           content:
             'application/json':
               schema:
                 $ref: '#/components/schemas/ErrorMessage'
         '500':
-          description: Internal Server Error
-          content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
-    put:
-      tags:
-        - Employee Controller
-      operationId: updateEmployee
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Employee'
-        required: true
-      responses:
-        '200':
-          description: Returns result Employee entity
-          content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/Employee'
-        '400':
-          description: Bad Request
-          content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
-        '404':
-          description: Not Found
-          content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
-        '500':
-          description: Internal Server Error
+          description: Returns an error message on internal server error.
           content:
             'application/json':
               schema:
                 $ref: '#/components/schemas/ErrorMessage'
     post:
       tags:
-        - Employee Controller
+        - Employee API
       operationId: saveEmployee
+      summary: Create new employee record.
       requestBody:
+        description: (!) The "employeeId" field of the request body is ignored because of autogeneration of record Id.
         content:
-          application/json:
+          'application/json':
             schema:
               $ref: '#/components/schemas/Employee'
         required: true
       responses:
         '200':
-          description: OK
+          description: Returns the saved record.
           content:
             'application/json':
               schema:
                 $ref: '#/components/schemas/Employee'
         '400':
-          description: Bad Request
-          content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/ErrorMessage'
-        '404':
-          description: Not Found
+          description: Returns an error message on request data validation failure.
           content:
             'application/json':
               schema:
                 $ref: '#/components/schemas/ErrorMessage'
         '500':
-          description: Internal Server Error
+          description: Returns an error message on internal server error.
           content:
             'application/json':
               schema:
                 $ref: '#/components/schemas/ErrorMessage'
   /api/employees/{id}:
+    put:
+      tags:
+        - Employee API
+      operationId: updateEmployee
+      summary: Update an existing employee.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The query ID parameter must match the EmployeeID field of the request body.
+          schema:
+            type: integer
+            minimum: 1
+      requestBody:
+        description: The request body contains a new employee information that is planned to be updated.
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/Employee'
+        required: true
+      responses:
+        '200':
+          description: Returns the updated employee record.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '400':
+          description: Returns an error message on request body validation failure. In addition, returns an error message if the query parameter "Id" and the EmployeeID field of the request body do not match.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '404':
+          description: Returns an error message if an employee record is not found.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+        '500':
+          description: Returns an error message on internal server error.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
     get:
       tags:
-        - Employee Controller
+        - Employee API
       operationId: findEmployeeById
+      summary: Get an employee record by id.
       parameters:
         - name: id
           in: path
@@ -136,63 +142,67 @@ paths:
           schema:
             type: integer
             format: int64
+            minimum: 1
       responses:
         '200':
-          description: OK
+          description: Returns the required employee record.
           content:
             'application/json':
               schema:
                 $ref: '#/components/schemas/Employee'
         '400':
-          description: Bad Request
+          description: Returns an error message on path param validation failure. (Id is not greater then 1)
           content:
             'application/json':
               schema:
                 $ref: '#/components/schemas/ErrorMessage'
         '404':
-          description: Not Found
+          description: Returns an error message if an employee record is not found.
           content:
             'application/json':
               schema:
                 $ref: '#/components/schemas/ErrorMessage'
         '500':
-          description: Internal Server Error
+          description: Returns an error message on internal server error.
           content:
             'application/json':
               schema:
                 $ref: '#/components/schemas/ErrorMessage'
     delete:
       tags:
-        - Employee Controller
+        - Employee API
       operationId: deleteEmployeeById
+      summary: Delete employee record by id.
       parameters:
         - name: id
           in: path
           required: true
           schema:
+            minimum: 1
             type: integer
             format: int64
       responses:
         '200':
-          description: OK
+          description: Returns "OK" on successful deletion.
           content:
             'application/json':
               schema:
+                example: OK
                 type: string
         '400':
-          description: Bad Request
+          description: Returns an error message on path param validation failure. (Id is not greater then 1)
           content:
             'application/json':
               schema:
                 $ref: '#/components/schemas/ErrorMessage'
         '404':
-          description: Not Found
+          description: Returns an error message if an employee record is not found.
           content:
             'application/json':
               schema:
                 $ref: '#/components/schemas/ErrorMessage'
         '500':
-          description: Internal Server Error
+          description: Returns an error message on internal server error.
           content:
             'application/json':
               schema:
@@ -203,36 +213,65 @@ components:
       type: object
       properties:
         statusCode:
+          description: Error status code.
+          example: 404
           type: integer
           format: int32
         timestamp:
+          description: Timestamp of error occurrence.
+          example: 2022-04-04T13:35:53.875+00:00
           type: string
           format: date-time
         message:
+          description: Error message.
+          example: Not found
           type: string
         description:
+          description: Request URI.
+          example: uri=/api/employees/15
           type: string
     Employee:
       type: object
       properties:
         employeeId:
+          description: Employee ID.
+          example: 1337
           type: integer
           format: int64
+          minimum: 1
         firstName:
+          description: Employee's first name.
+          example: Gordon
+          minLength: 2
+          maxLength: 32
           type: string
         lastName:
+          description: Employee's last name.
+          example: Freeman
+          minLength: 2
+          maxLength: 32
           type: string
         departmentId:
+          description: Employee's department id.
+          example: 17
+          minimum: 1
           type: integer
           format: int32
         jobTitle:
+          description: Employeee's job title.
+          example: Scientist
+          minLength: 2
+          maxLength: 255
           type: string
         gender:
+          description: Employee's gender.
+          example: MALE
           type: string
           enum:
             - MALE
             - FEMALE
-        age:
-          minimum: 18
-          type: integer
-          format: int32
+        dateOfBirth:
+          description: Employee's date of birth. (Format yyyy-mm-dd)
+          type: string
+          format: date
+          example: "1983-08-24"

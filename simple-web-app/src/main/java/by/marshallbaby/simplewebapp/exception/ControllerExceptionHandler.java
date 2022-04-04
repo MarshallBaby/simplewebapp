@@ -3,6 +3,7 @@ package by.marshallbaby.simplewebapp.exception;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.jms.JmsException;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
 import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
 import java.util.Date;
 
 @RestControllerAdvice
@@ -20,7 +22,7 @@ public class ControllerExceptionHandler {
 
     private final Logger logger = LoggerFactory.getLogger("by.marshallbaby.controller-advice-logger");
 
-    @ExceptionHandler(ResourceNotFoundException.class)
+    @ExceptionHandler({ResourceNotFoundException.class, EmptyResultDataAccessException.class})
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public ErrorMessage resourceNotFoundException(Exception e, WebRequest request) {
 
@@ -49,12 +51,10 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler({
-            //
             MethodArgumentNotValidException.class,
-            //
             IdParameterMismatchException.class,
-            //
-            ConstraintViolationException.class})
+            ConstraintViolationException.class,
+            ValidationException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ErrorMessage validationException(Exception e, WebRequest request) {
 
