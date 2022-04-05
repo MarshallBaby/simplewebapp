@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
-
-import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 import java.util.Date;
 
@@ -24,7 +22,7 @@ public class ControllerExceptionHandler {
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public ErrorMessage resourceNotFoundException(Exception e, WebRequest request) {
 
-        logger.info("Not Found", e);
+        logger.error("Not Found", e);
 
         return new ErrorMessage(
                 HttpStatus.NOT_FOUND.value(),
@@ -38,7 +36,7 @@ public class ControllerExceptionHandler {
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ErrorMessage httpMessageNotReadableException(Exception e, WebRequest request) {
 
-        logger.info("Got bad request.", e);
+        logger.error("Got bad request.", e);
 
         return new ErrorMessage(
                 HttpStatus.BAD_REQUEST.value(),
@@ -51,12 +49,11 @@ public class ControllerExceptionHandler {
     @ExceptionHandler({
             MethodArgumentNotValidException.class,
             IdParameterMismatchException.class,
-            ConstraintViolationException.class,
             ValidationException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ErrorMessage validationException(Exception e, WebRequest request) {
 
-        logger.info("Got Invalid Request Body Data.", e);
+        logger.error("Got Invalid Request Body Data.", e);
 
         return new ErrorMessage(
                 HttpStatus.BAD_REQUEST.value(),
