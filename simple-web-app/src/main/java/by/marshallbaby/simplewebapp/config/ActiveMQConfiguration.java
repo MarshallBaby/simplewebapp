@@ -10,8 +10,6 @@ import org.springframework.jms.support.converter.MappingJackson2MessageConverter
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessageType;
 
-import javax.jms.Queue;
-
 @Configuration
 @EnableJms
 public class ActiveMQConfiguration {
