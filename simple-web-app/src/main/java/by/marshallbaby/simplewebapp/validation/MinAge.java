@@ -14,7 +14,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Retention(RUNTIME)
 public @interface MinAge {
     String message() default "Age validation failure.";
-    int min();
+    int min() default 18;
     Class <?> [] groups() default {};
     Class <? extends Payload> [] payload() default {};
 }

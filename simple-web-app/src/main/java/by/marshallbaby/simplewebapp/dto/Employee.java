@@ -12,10 +12,7 @@ import org.hibernate.annotations.TypeDef;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 @Entity
@@ -40,7 +37,7 @@ public class Employee {
     private String lastName;
 
     @Nullable
-    @Min(1)
+    @Positive
     private Integer departmentId;
 
     @Nullable
@@ -55,7 +52,7 @@ public class Employee {
 
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonDeserialize(using = LocalDateDeserializer.class)
-    @MinAge(min = 18)
+    @MinAge
     @NotNull
     private LocalDate dateOfBirth;
 
