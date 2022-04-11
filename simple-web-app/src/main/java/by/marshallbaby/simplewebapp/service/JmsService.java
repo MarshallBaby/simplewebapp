@@ -33,7 +33,6 @@ public class JmsService {
 
         jmsTemplate.setReceiveTimeout(20000);
 
-
         Message reply = jmsTemplate.sendAndReceive(employeeQueue, new MessageCreator() {
             @Override
             public Message createMessage(Session session) throws JMSException {
