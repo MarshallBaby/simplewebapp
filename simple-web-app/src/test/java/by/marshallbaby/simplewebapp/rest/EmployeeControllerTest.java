@@ -1,83 +1,89 @@
 package by.marshallbaby.simplewebapp.rest;
 
 import by.marshallbaby.simplewebapp.dto.Employee;
-import by.marshallbaby.simplewebapp.dto.Gender;
 import by.marshallbaby.simplewebapp.service.EmployeeService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockedStatic;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(EmployeeController.class)
 class EmployeeControllerTest {
 
-//    private static final MediaType APPLICATION_JSON_UTF8 = new MediaType(
-//            MediaType.APPLICATION_JSON.getType(),
-//            MediaType.APPLICATION_JSON.getSubtype(),
-//            StandardCharsets.UTF_8);
-//
-//    public ObjectWriter ow = null;
-//    public ObjectMapper mapper = null;
-//
-//    @BeforeEach
-//    public void setup(){
-//        mapper = new ObjectMapper();
-//        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
-//        ow = mapper.writer().withDefaultPrettyPrinter();
-//    }
-//
-//    @Autowired
-//    private MockMvc mockMvc;
-//
-//    @MockBean
-//    private EmployeeService employeeService;
-//
-//    @Test
-//    void saveEmployee() throws Exception{
-//        when(employeeService.save(any(Employee.class))).thenReturn(any(Employee.class));
-//
-//        mockMvc.perform(post("/api/employees").contentType(APPLICATION_JSON_UTF8)
-//                .content(ow.writeValueAsString(new Employee())))
-//                .andExpect(status().isOk());
-//    }
-//
-//    @Test
-//    void saveEmployeeFail() throws Exception{
-//        when(employeeService.save(any(Employee.class))).thenThrow(new RuntimeException());
-//
-//        mockMvc.perform(post("/api/employees").contentType(APPLICATION_JSON_UTF8)
-//                        .content(ow.writeValueAsString(new Employee())))
-//                .andExpect(status().isInternalServerError());
-//    }
-//
-//    @Test
-//    void findEmployee() throws Exception{
-//        when(employeeService.findEmployees(anyString(), anyString())).thenReturn(new ArrayList<Employee>());
-//
-//        mockMvc.perform(get("/api/employees"))
-//                .andExpect(status().isOk());
-//    }
-//
-//    @Test
-//    void findEmployeeFail() throws  Exception{
-//        when(employeeService.findEmployees(anyString(), anyString())).thenThrow(new RuntimeException());
-//
-//        mockMvc.perform(get("/api/employees"))
-//                .andExpect(status().isInternalServerError());
-//    }
+    @Autowired
+    private MockMvc mockMvc;
 
+    @MockBean
+    private EmployeeService employeeService;
+
+    @Test
+    void saveEmployee() throws Exception {
+
+            String requestBody = "{\n" +
+                    "    \"firstName\": \"Paul\",\n" +
+                    "    \"lastName\": \"Fregoso\",\n" +
+                    "    \"departmentId\": 65,\n" +
+                    "    \"jobTitle\": \"Development\",\n" +
+                    "    \"gender\": \"MALE\",\n" +
+                    "    \"dateOfBirth\" : \"2000-10-10\"\n" +
+                    "}";
+
+            when(employeeService.save(any(Employee.class))).thenReturn(any(Employee.class));
+            mockMvc.perform(post("/api/employees").contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                    )
+                    .andExpect(status().isOk());
+
+    }
+
+    @Test
+    void findEmployees() throws Exception {
+        when(employeeService.findEmployees(anyString(), anyString())).thenReturn(new ArrayList<>());
+        mockMvc.perform(get("/api/employees"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void findEmployeeById() throws Exception {
+        when(employeeService.findById(anyLong())).thenReturn(new Employee());
+        mockMvc.perform(get("/api/employees/1"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void deleteEmployeeById() throws Exception {
+        mockMvc.perform(delete("/api/employees/1"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void updateEmployee() throws Exception {
+
+        String requestBody = "{\n" +
+                "    \"employeeId\": \"1\",\n" +
+                "    \"firstName\": \"Paul\",\n" +
+                "    \"lastName\": \"Fregoso\",\n" +
+                "    \"departmentId\": 65,\n" +
+                "    \"jobTitle\": \"Development\",\n" +
+                "    \"gender\": \"MALE\",\n" +
+                "    \"dateOfBirth\" : \"2000-10-10\"\n" +
+                "}";
+
+        when(employeeService.update(any(Employee.class), anyLong())).thenReturn(new Employee());
+        mockMvc.perform(put("/api/employees/1").contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody))
+                .andExpect(status().isOk());
+    }
 }

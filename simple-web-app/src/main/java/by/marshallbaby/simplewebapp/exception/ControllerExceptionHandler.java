@@ -30,9 +30,10 @@ public class ControllerExceptionHandler {
         UUID errorId = UUID.randomUUID();
 
         requestResponseLogger.warn(
-                "OUT ERROR: {}. Watch info in controller advice log. Error ID: {}",
+                "OUT ERROR: {} Watch info in controller advice log. Error ID: {}, Client info: {}",
                 errorMessage,
-                errorId
+                errorId,
+                request.getDescription(true)
         );
         controllerAdviceLogger.error("{} Error ID: {}", errorMessage, errorId, e);
 
@@ -62,7 +63,7 @@ public class ControllerExceptionHandler {
             ValidationException.class})
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ErrorMessage validationException(Exception e, WebRequest request) {
-        return handleException(e, request, "Invalid Request Body Data.");
+        return handleException(e, request, "Invalid Request Data.");
     }
 
     @ExceptionHandler(Exception.class)
