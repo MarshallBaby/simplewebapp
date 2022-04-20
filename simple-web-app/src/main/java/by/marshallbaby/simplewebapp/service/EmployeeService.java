@@ -16,9 +16,6 @@ public class EmployeeService {
     @Autowired
     EmployeeRepository employeeRepository;
 
-    @Autowired
-    JmsTemplate jmsTemplate;
-
     public Employee save(Employee employee) {
         return employeeRepository.save(employee);
     }

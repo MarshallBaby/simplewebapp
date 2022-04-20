@@ -15,29 +15,29 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class EmployeeServiceTest {
 
     @InjectMocks
-    private EmployeeService employeeService = new EmployeeService();
+    private EmployeeService employeeService;
 
     @Mock
     private EmployeeRepository employeeRepository;
 
     @Test
     void save() {
-        Employee employee = new Employee();
-        when(employeeRepository.save(any(Employee.class))).thenReturn(employee);
-        assertSame(employeeService.save(new Employee()), employee);
+        when(employeeRepository.save(any(Employee.class))).thenReturn(new Employee());
+        employeeService.save(new Employee());
+        verify(employeeRepository, times(1)).save(any(Employee.class));
     }
 
     @Test
     void findById() {
-        Employee employee = new Employee();
-        when(employeeRepository.findById(anyLong())).thenReturn(Optional.of(employee));
-        assertSame(employeeService.findById(anyLong()), employee);
+        when(employeeRepository.findById(anyLong())).thenReturn(Optional.of(new Employee()));
+        employeeService.findById(anyLong());
+        verify(employeeRepository, times(1)).findById(anyLong());
     }
 
     @Test
@@ -46,23 +46,26 @@ class EmployeeServiceTest {
         assertThrows(ResourceNotFoundException.class, () -> {
             employeeService.findById(anyLong());
         });
+        verify(employeeRepository, times(1)).findById(anyLong());
     }
 
     @Test
     void deleteById() {
-        assertDoesNotThrow(() -> {
-            employeeService.deleteById(anyLong());
-        });
+        employeeService.deleteById(anyLong());
+        verify(employeeRepository, times(1)).deleteById(anyLong());
     }
 
     @Test
     void update() {
         Employee employee = new Employee();
         employee.setEmployeeId(1L);
+
         when(employeeRepository.findById(anyLong())).thenReturn(Optional.of(employee));
         when(employeeRepository.save(any(Employee.class))).thenReturn(employee);
 
-        assertSame(employeeService.update(employee, 1L), employee);
+        employeeService.update(employee, 1L);
+        verify(employeeRepository, times(1)).findById(anyLong());
+        verify(employeeRepository, times(1)).save(any(Employee.class));
     }
 
     @Test
@@ -73,6 +76,7 @@ class EmployeeServiceTest {
         assertThrows(IdParameterMismatchException.class, () -> {
             employeeService.update(employee, 2L);
         });
+        verifyNoInteractions(employeeRepository);
     }
 
     @Test
@@ -84,15 +88,18 @@ class EmployeeServiceTest {
         assertThrows(ResourceNotFoundException.class, () -> {
             employeeService.update(employee, 1L);
         });
+        verify(employeeRepository, times(1)).findById(anyLong());
+        verify(employeeRepository, never()).save(any(Employee.class));
     }
 
     @Test
     void findEmployees() {
-        ArrayList<Employee> employees = new ArrayList<>();
-
         when(employeeRepository.findByFirstNameContainsAndLastNameContains(anyString(), anyString()))
-                .thenReturn(employees);
+                .thenReturn(new ArrayList<>());
 
-        assertSame(employeeService.findEmployees(anyString(), anyString()), employees);
+        employeeService.findEmployees("", "");
+
+        verify(employeeRepository, times(1))
+                .findByFirstNameContainsAndLastNameContains(anyString(), anyString());
     }
 }
